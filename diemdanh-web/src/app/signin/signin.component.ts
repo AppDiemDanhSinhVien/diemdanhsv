@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import {AuthService} from '../_services/auth.service';
 declare var $: any;
 @Component({
   selector: 'app-signin',
@@ -11,9 +12,12 @@ export class SigninComponent implements OnInit {
   email = '';
   password = '';
   loadingLogin = false;
-  constructor(private router: Router) { }
+  returnUrl: string;
+  constructor(private auth: AuthService ,private router: Router,private route: ActivatedRoute) { }
 
   ngOnInit() {
+      // get url query
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
       /*==================================================================
       [ Validate ]*/
       var input = $('.validate-input .input100');
@@ -35,7 +39,8 @@ export class SigninComponent implements OnInit {
             this.islogin = false;
           }
 
-          if(check ){
+          if(check && this.islogin){
+            this.auth.sendToken('jenick');
             console.log('login ' + this.islogin);
             console.log('thong tin '+  this.email + ' ' + this.password);
             $('#btn_login').attr("disabled", true);
@@ -43,7 +48,7 @@ export class SigninComponent implements OnInit {
             setTimeout(() => {
               $('#btn_login').attr("disabled", false);
               this.loadingLogin = false;
-              this.router.navigate(['']);
+              this.router.navigate([this.returnUrl]);
           }, 4000)
 
           }

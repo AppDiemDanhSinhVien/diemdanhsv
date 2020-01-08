@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {AuthService} from '../_services/auth.service';
 declare var $: any;
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ declare var $: any;
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService ) { }
 
   ngOnInit() {
     $("#menu-toggle").click(function(e) {
@@ -16,5 +16,7 @@ export class HomeComponent implements OnInit {
       $("#wrapper").toggleClass("toggled");
     });
   }
-
+  logout() {
+    this.auth.logout();
+  }
 }
