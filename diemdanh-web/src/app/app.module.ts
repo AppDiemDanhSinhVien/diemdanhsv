@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule  } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './_helpers/auth.guard';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -23,6 +26,8 @@ import { SigninComponent } from './signin/signin.component';
   imports: [
     BrowserModule,
     FormsModule,
+    AngularFireModule.initializeApp(environment.firebase, 'app-diem-danh'),
+    AngularFireDatabaseModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' , canActivate:
       [AuthGuard]},

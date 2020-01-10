@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import {AuthService} from '../_services/auth.service';
 declare var $: any;
 @Component({
@@ -8,16 +8,14 @@ declare var $: any;
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-  islogin = false;
   email = '';
   password = '';
   loadingLogin = false;
-  returnUrl: string;
-  constructor(private auth: AuthService ,private router: Router,private route: ActivatedRoute) { }
+  loginFail = false;
+  constructor(private auth: AuthService ,private router: Router) { }
 
   ngOnInit() {
-      // get url query
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
       /*==================================================================
       [ Validate ]*/
       var input = $('.validate-input .input100');
@@ -33,23 +31,18 @@ export class SigninComponent implements OnInit {
                   check=false;
               }
           }
-          if(this.email === 'jenick2000@gmail.com' && this.password === '123') {
-            this.islogin = true
-          }else{
-            this.islogin = false;
-          }
 
-          if(check && this.islogin){
-            this.auth.sendToken('jenick');
-            console.log('login ' + this.islogin);
-            console.log('thong tin '+  this.email + ' ' + this.password);
+          if(check){
+            this.auth.sendToken(this.email ,this.password);
             $('#btn_login').attr("disabled", true);
             this.loadingLogin = true;
             setTimeout(() => {
               $('#btn_login').attr("disabled", false);
               this.loadingLogin = false;
-              this.router.navigate([this.returnUrl]);
-          }, 4000)
+              if( !this.auth.getToken()) {
+                $('#thongbaoLoginFailed').show();
+              }
+          }, 2000)
 
           }
            //return check;
@@ -83,7 +76,7 @@ export class SigninComponent implements OnInit {
 
       function hideValidate(input) {
           var thisAlert = $(input).parent();
-
+          $('#thongbaoLoginFailed').hide();
           $(thisAlert).removeClass('alert-validate');
       }
 
