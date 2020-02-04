@@ -1,1 +1,199 @@
-<p>quanly-gv works!</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Quản Lý Sinh Viên CĐ CNTT TP.HCM</title>
+
+    <!-- Bootstrap core CSS -->
+
+
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">Quản Lý Điểm Danh </div>
+            <div class="list-group list-group-flush">
+                <a [routerLink]="['/quanly-giaovien']" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+                <a [routerLink]="['/quanly-giaovien']" class="list-group-item list-group-item-action bg-dark">Giáo Viên</a>
+                <a [routerLink]="['/quanly-lop']" class="list-group-item list-group-item-action bg-light">QL Lớp</a>
+                <a [routerLink]="['/quanly-sinhvien']" class="list-group-item list-group-item-action bg-light">QL Sinh Viên</a>
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fa fa-motorcycle"></i></button>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">{{userLoggedIn.email}} <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" (click)="logout()">LogOut</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#newteacher">Add new</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="newteacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add new teacher</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputEmail4">Email</label>
+                                                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email" [(ngModel)]="newteacher.email" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="inputPassword4">Password</label>
+                                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password" [(ngModel)]="newteacher.password" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputName">Name</label>
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name" [(ngModel)]="newteacher.tengv" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputMSGV">MSGV</label>
+                                                <input type="text" class="form-control" id="inputMSGV" placeholder="MSGV" [(ngModel)]="newteacher.msgv" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputBirthday">Birthday</label>
+                                                <input type="date" class="form-control" id="inputBirthday" placeholder="Birthday" [(ngModel)]="newteacher.ngaysinh" [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputClass">Class</label>
+                                                <select required class="form-control" name="class" [(ngModel)]="newteacher.lop" [ngModelOptions]="{standalone: true}">
+                                                    <option *ngFor="let item of auth.Class" value="{{item.tenlop}}">{{item.tenlop}}</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" (click)="addGV()">Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of auth.GV; let i=index">
+                            <th scope="row">{{i}}</th>
+                            <td>{{item.tengv}}</td>
+                            <td>{{item.email}}</td>
+                            <!-- <td>
+                                <span *ngFor="let a of item.lop">{{a.IDLop}}</span>
+                            </td> -->
+                            <td>
+                                {{item.lop}}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning" (click)="editGV(item)" data-toggle="modal" data-target="#edit_gv_modal">Edit</button>
+                                <button type="button" class="btn btn-danger" (click)="delete(item)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Modal -->
+                <div *ngIf="edit" class="modal fade" id="edit_gv_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit info teacher</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input [(ngModel)]="info_edit.tengv" [ngModelOptions]="{standalone: true}" name="fullname" class="form-control" placeholder="Ten giao vien" type="text">
+                                        </div>
+                                        <div class="col">
+                                            <input [(ngModel)]="info_edit.email" [ngModelOptions]="{standalone: true}" name="email" class="form-control" placeholder="Email" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input [(ngModel)]="info_edit.msgv" [ngModelOptions]="{standalone: true}" name="msgv" class="form-control" placeholder="MSGV" type="email">
+                                        </div>
+                                        <div class="col">
+                                            <input [(ngModel)]="info_edit.ngaysinh" [ngModelOptions]="{standalone: true}" name="ngaysinh" class="form-control" type="date" value="1980-01-01" id="example-date-input">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <input [(ngModel)]="info_edit.password" [ngModelOptions]="{standalone: true}" name="password" placeholder="Password" class="form-control" type="password">
+                                        </div>
+                                        <div class="col">
+                                            <select required class="form-control" name="class" [(ngModel)]="info_edit.lop" [ngModelOptions]="{standalone: true}">
+                                                <option *ngFor="let item of auth.Class; let Class = item" value="{{item.tenlop}}">{{item.tenlop}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-primary btn-block" (click)="updateGV()"> Update Info  </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /#page-content-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+    </div>
+</body>
+
+</html>
