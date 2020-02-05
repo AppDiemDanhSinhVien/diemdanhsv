@@ -1,0 +1,156 @@
+<div>
+  <h3 style="text-align: center;margin-top: 50px;margin-bottom: 25px;"> Thêm Lớp</h3>
+  <form [formGroup]="addForm"  (ngSubmit)="onSubmit()" >
+    <div class="form-group">
+      <label for="exampleInputEmail1">Tên Lớp</label>
+      <input type="text" class="form-control" autofocus placeholder="abc"  formControlName="TenLop" required  >
+      <div *ngIf="addF.TenLop.invalid && (addF.TenLop.dirty || addF.TenLop.touched)">
+      <small  style="color:red"  class="form-text" *ngIf="addF.TenLop.errors.required">nhập tên lớp học</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Chọn Giảng Viên</label>
+      <select class="form-control" formControlName="ChonGiaoVien" required>
+        <option value="">choose teacher</option>
+        <option *ngFor="let gv of GiaoVien" >{{gv.tengv}}</option>
+      </select>
+      <div *ngIf="addF.ChonGiaoVien.invalid && (addF.ChonGiaoVien.dirty || addF.ChonGiaoVien.touched)">
+        <small  style="color:red"  class="form-text" *ngIf="addF.ChonGiaoVien.errors.required">Chon giao vien</small>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1" style="margin-right: 30px;">Chọn ngày bắt đầu</label>
+      <input type="date" name="bday" formControlName="NgayBatDau" required >
+      <div *ngIf="addF.NgayBatDau.invalid && (addF.NgayBatDau.dirty || addF.NgayBatDau.touched)">
+        <small  style="color:red"  class="form-text" *ngIf="addF.NgayBatDau.errors.required">Chọn ngày bắt đầu</small>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlSelect1">Chọn thời khóa biểu</label>
+
+        <small *ngIf="LoiLichDay" style="color:red"  class="form-text" >Chọn thời khóa biểu</small>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" (click)="hideInvalid()">
+        <i class="fa fa-calendar"></i>
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Schedule</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label for="chonThu"> Thứ </label>
+              <select class="form-control" [(ngModel)]="schedule.thuday"  [ngModelOptions]="{standalone: true}" id="chonThu">
+                <option>thứ hai</option>
+                <option>thứ ba</option>
+                <option>thứ tư</option>
+                <option>thứ năm</option>
+                <option>thứ sáu</option>
+                <option>thứ bảy</option>
+
+              </select>
+              <br>
+              <label style="margin-right: 30px;">Giờ bắt đầu</label>
+              <input type="time" name="time_db"id="test" [(ngModel)]="schedule.gioday.giobd"  [ngModelOptions]="{standalone: true}" >
+              <label style="margin-right: 30px;">Giờ kết thúc</label>
+              <input type="time" name="time_kt" [(ngModel)]="schedule.gioday.giokt"  [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="themNgay()">Set</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- edit lich day -->
+      <div class="modal fade" id="editSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Edit Schedule</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label > Thứ </label>
+              <select class="form-control" [(ngModel)]="editSchedule.thuday"  [ngModelOptions]="{standalone: true}" >
+                <option selected>{{editSchedule.thuday}}</option>
+                <option>thứ hai</option>
+                <option>thứ ba</option>
+                <option>thứ tư</option>
+                <option>thứ năm</option>
+                <option>thứ sáu</option>
+                <option>thứ bảy</option>
+
+              </select>
+              <br>
+              <label style="margin-right: 30px;">Giờ bắt đầu</label>
+              <input type="time" name="time_db"id="test" [(ngModel)]="editSchedule.gioday.giobd"  [ngModelOptions]="{standalone: true}" >
+              <label style="margin-right: 30px;">Giờ kết thúc</label>
+              <input type="time" name="time_kt" [(ngModel)]="editSchedule.gioday.giokt"  [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="updateSchedule(index)">Set</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="table" *ngIf="lichDay?.length > 0">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col"> Edit</th>
+          <th scope="col"> Remove</th>
+          <th scope="col">Thứ</th>
+
+          <th scope="col">Giờ BĐ</th>
+          <th scope="col">Giờ KT</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ld of lichDay; let i = index">
+          <th scope="row">{{i}}</th>
+          <td>
+            <button type="button" class="btn btn-info" (click)="editLich(i)">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="removeLich(i)">Delete</button>
+          </td>
+          <td>{{ld.thuday}}</td>
+            <td> {{ld.gioday.giobd}}</td>
+            <td> {{ld.gioday.giokt}}</td>
+
+        </tr>
+
+      </tbody>
+    </table>
+
+
+  <button type="submit" style="margin-top: 50px;"class="btn btn-primary">Tạo Lớp</button>
+  </form>
+  <!-- Toast -->
+  <div class="toast"style="position: absolute; bottom: 10px; right: 10px;">
+    <div class="toast-header" style="background: #9cf909; width:200px">
+
+      <strong class="mr-auto">Jenick'JK</strong>
+      <small>now</small>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      Đã tạo lớp thành công
+    </div>
+  </div>
+</div>

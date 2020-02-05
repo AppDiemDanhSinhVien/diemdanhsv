@@ -1,3 +1,4 @@
+
 /*!
  * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
  * Copyright 2013-2019 Start Bootstrap
@@ -46,4 +47,16 @@
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+.icon_down, .icon_up {
+  font-size: 24px;
+    float: right;
+    margin-top: 10px;
+}
+.selectedcategoryServices {
+  background-color: #acc4d0!important;
+}
+.list-group-item{
+  color: blueviolet;
+  padding-left: 40px;;
 }

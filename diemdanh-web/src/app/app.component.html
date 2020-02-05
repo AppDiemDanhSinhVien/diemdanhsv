@@ -1,1 +1,129 @@
-<router-outlet></router-outlet>
+
+<!DOCTYPE html>
+<html lang="en" *ngIf="auth.isLoggedIn()">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Quản Lý Sinh Viên CĐ CNTT TP.HCM</title>
+
+  <!-- Bootstrap core CSS -->
+
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Quản Lý Điểm Danh </div>
+      <div class="list-group list-group-flush">
+
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h2 class="mb-0 t" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <a class="btn  " [routerLink]="['/']">
+                  Home
+                </a>
+
+              </h2>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h2 class="mb-0  menu-left" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <button class="btn  " >
+                  Lớp
+                </button>
+                <i class="fa fa-angle-down icon_down" ></i>
+              </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <a [routerLink]="['/quanly-lop']" class="list-group-item list-group-item-action bg-light">Danh Sách Lớp</a>
+                <a [routerLink]="['/quanly-lop/them-lop']" class="list-group-item list-group-item-action bg-light">Thêm lớp</a>
+
+
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h2 class="mb-0 menu-left" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <button class="btn  collapsed" type="button" >
+                 Giáo Viên
+                </button>
+                <i class="fa fa-angle-down icon_down" ></i>
+              </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <a [routerLink]="['/quanly-giaovien']" class="list-group-item  list-group-item-action bg-light">Danh Sách Giáo Viên</a>
+
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h2 class="mb-0" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <button class="btn collapsed" type="button" >
+                 Sinh Viên
+                </button>
+                <i class="fa fa-angle-down icon_down" ></i>
+              </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+              <a [routerLink]="['/quanly-giaovien']" class="list-group-item list-group-item-action bg-light">Danh Sách Sinh Viên</a>
+              <a [routerLink]="['/quanly-lop']" class="list-group-item list-group-item-action bg-light">Thêm Sinh Viên </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle"><i class="fa fa-motorcycle"></i></button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">{{userLoggedIn.email}} <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Account
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" (click)="logout()">LogOut</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<router-outlet *ngIf="!auth.isLoggedIn()"></router-outlet>
+
