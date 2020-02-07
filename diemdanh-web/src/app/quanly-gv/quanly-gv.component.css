@@ -46,3 +46,11 @@ body {
         margin-left: -15rem;
     }
 }
+
+button.btn-addGV {
+    margin: 14px 0px 5px;
+}
+
+td button.btn {
+    margin: 0 2px;
+}

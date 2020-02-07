@@ -1,129 +1,140 @@
-<div class="container-fluid">
-  <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12">
-          <button class="btn btn-warning" data-toggle="modal" data-target="#newteacher">Add new</button>
-          <!-- Modal -->
-          <div class="modal fade" id="newteacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Add new teacher</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      </div>
-                      <div class="modal-body">
-                          <form>
-                              <div class="form-row">
-                                  <div class="form-group col-md-6">
-                                      <label for="inputEmail4">Email</label>
-                                      <input type="email" class="form-control" id="inputEmail4" placeholder="Email" [(ngModel)]="newteacher.email" [ngModelOptions]="{standalone: true}">
-                                  </div>
-                                  <div class="form-group col-md-6">
-                                      <label for="inputPassword4">Password</label>
-                                      <input type="password" class="form-control" id="inputPassword4" placeholder="Password" [(ngModel)]="newteacher.password" [ngModelOptions]="{standalone: true}">
-                                  </div>
-                              </div>
-                              <div class="form-group">
-                                  <label for="inputName">Name</label>
-                                  <input type="text" class="form-control" id="inputName" placeholder="Name" [(ngModel)]="newteacher.tengv" [ngModelOptions]="{standalone: true}">
-                              </div>
-                              <div class="form-group">
-                                  <label for="inputMSGV">MSGV</label>
-                                  <input type="text" class="form-control" id="inputMSGV" placeholder="MSGV" [(ngModel)]="newteacher.msgv" [ngModelOptions]="{standalone: true}">
-                              </div>
-                              <div class="form-group">
-                                  <label for="inputBirthday">Birthday</label>
-                                  <input type="date" class="form-control" id="inputBirthday" placeholder="Birthday" [(ngModel)]="newteacher.ngaysinh" [ngModelOptions]="{standalone: true}">
-                              </div>
-                              <div class="form-group">
-                                  <label for="inputClass">Class</label>
-                                  <select required class="form-control" name="class" [(ngModel)]="newteacher.lop" [ngModelOptions]="{standalone: true}">
-                                      <option *ngFor="let item of auth.Class" value="{{item.tenlop}}">{{item.tenlop}}</option>
-                                  </select>
-                              </div>
-                              <button type="submit" class="btn btn-primary" (click)="addGV()">Add</button>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <table class="table">
-      <thead class="thead-dark">
-          <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Class</th>
-              <th scope="col">Action</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let item of auth.GV; let i=index">
-              <th scope="row">{{i}}</th>
-              <td>{{item.tengv}}</td>
-              <td>{{item.email}}</td>
-              <!-- <td>
-                  <span *ngFor="let a of item.lop">{{a.IDLop}}</span>
-              </td> -->
-              <td>
-                  {{item.lop}}
-              </td>
-              <td>
-                  <button type="button" class="btn btn-warning" (click)="editGV(item)" data-toggle="modal" data-target="#edit_gv_modal">Edit</button>
-                  <button type="button" class="btn btn-danger" (click)="delete(item)">Delete</button>
-              </td>
-          </tr>
-      </tbody>
-  </table>
-  <!-- Modal -->
-  <div *ngIf="edit" class="modal fade" id="edit_gv_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit info teacher</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body">
-                  <form>
-                      <div class="form-row">
-                          <div class="col">
-                              <input [(ngModel)]="info_edit.tengv" [ngModelOptions]="{standalone: true}" name="fullname" class="form-control" placeholder="Ten giao vien" type="text">
-                          </div>
-                          <div class="col">
-                              <input [(ngModel)]="info_edit.email" [ngModelOptions]="{standalone: true}" name="email" class="form-control" placeholder="Email" type="text">
-                          </div>
-                      </div>
-                      <div class="form-row">
-                          <div class="col">
-                              <input [(ngModel)]="info_edit.msgv" [ngModelOptions]="{standalone: true}" name="msgv" class="form-control" placeholder="MSGV" type="email">
-                          </div>
-                          <div class="col">
-                              <input [(ngModel)]="info_edit.ngaysinh" [ngModelOptions]="{standalone: true}" name="ngaysinh" class="form-control" type="date" value="1980-01-01" id="example-date-input">
-                          </div>
-                      </div>
-                      <div class="form-row">
-                          <div class="col">
-                              <input [(ngModel)]="info_edit.password" [ngModelOptions]="{standalone: true}" name="password" placeholder="Password" class="form-control" type="password">
-                          </div>
-                          <div class="col">
-                              <select required class="form-control" name="class" [(ngModel)]="info_edit.lop" [ngModelOptions]="{standalone: true}">
-                                  <option *ngFor="let item of auth.Class; let Class = item" value="{{item.tenlop}}">{{item.tenlop}}</option>
-                              </select>
-                          </div>
-                      </div>
-                      <div class="form-row">
-                          <div class="col">
-                              <button type="submit" class="btn btn-primary btn-block" (click)="updateGV()"> Update Info  </button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-              <!-- <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-              </div> -->
-          </div>
-      </div>
-  </div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <button class="btn btn-warning btn-addGV" data-toggle="modal" data-target="#newteacher">Thêm giáo viên</button>
+        <!-- Modal Add Giáo viên -->
+        <div class="modal fade" id="newteacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="exampleModalLabel">Thêm giáo viên mới</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">Email</label>
+                                    <input [ngStyle]="{'border': emailRef.invalid &&  (emailRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #emailRef="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" type="email" class="form-control" id="inputEmail4" placeholder="Email"
+                                        [(ngModel)]="newteacher.email" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Mật khẩu</label>
+                                    <input [ngStyle]="{'border': pwRef.invalid &&  (pwRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #pwRef="ngModel" required type="password" class="form-control" id="inputPassword4" placeholder="Password" [(ngModel)]="newteacher.password" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputName">Họ và tên</label>
+                                    <input [ngStyle]="{'border': nameRef.invalid &&  (nameRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #nameRef="ngModel" required type="text" class="form-control" id="inputName" placeholder="Name" [(ngModel)]="newteacher.tengv" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputMSGV">Mã số giáo viên</label>
+                                    <input [ngStyle]="{'border': msRef.invalid &&  (msRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #msRef="ngModel" required type="text" class="form-control" id="inputMSGV" placeholder="MSGV" [(ngModel)]="newteacher.msgv" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputBirthday">Ngày sinh</label>
+                                    <input [ngStyle]="{'border': snRef.invalid &&  (snRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #snRef="ngModel" required type="date" class="form-control" id="inputBirthday" placeholder="Birthday" [(ngModel)]="newteacher.ngaysinh" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputClass">Lớp</label>
+                                    <div *ngFor="let item of auth.Class">
+                                        <input type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0"> {{item.tenlop}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit" class="btn btn-primary btn-block" (click)="addGV()">Thêm mới</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Lớp</th>
+                    <th scope="col">Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of auth.GV; let i=index">
+                    <th scope="row">{{i}}</th>
+                    <td>{{item.tengv}}</td>
+                    <td>{{item.email}}</td>
+                    <td>
+                        <span *ngFor="let lop of item.lop">{{lop.tenlop}} - </span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-warning" (click)="editGV(item)" data-toggle="modal" data-target="#edit_gv_modal">Edit</button>
+                        <button type="button" class="btn btn-danger" (click)="delete(item)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Modal Edit Giáo viên -->
+        <div *ngIf="edit" class="modal fade" id="edit_gv_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="exampleModalLabel">Chỉnh sửa thông tin giáo viên</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label> Tên </label>
+                                    <input [ngStyle]="{'border': nameRef.invalid &&  (nameRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #nameRef="ngModel" required [(ngModel)]="info_edit.tengv" [ngModelOptions]="{standalone: true}" name="fullname" class="form-control" placeholder="Tên giáo viên"
+                                        type="text">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Email</label>
+                                    <input [ngStyle]="{'border': emailRef.invalid &&  (emailRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #emailRef="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [(ngModel)]="info_edit.email" [ngModelOptions]="{standalone: true}"
+                                        name="email" class="form-control" placeholder="Email" type="text">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Email</label>
+                                    <input [ngStyle]="{'border': msRef.invalid &&  (msRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #msRef="ngModel" required [(ngModel)]="info_edit.msgv" [ngModelOptions]="{standalone: true}" name="msgv" class="form-control" placeholder="Mã số giáo viên"
+                                        type="email">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Ngày sinh</label>
+                                    <input [ngStyle]="{'border': snRef.invalid &&  (snRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #snRef="ngModel" required [(ngModel)]="info_edit.ngaysinh" [ngModelOptions]="{standalone: true}" name="ngaysinh" class="form-control" type="date"
+                                        value="1980-01-01" id="example-date-input">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label> Mật khẩu</label>
+                                    <input [ngStyle]="{'border': pwRef.invalid &&  (pwRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #pwRef="ngModel" required [(ngModel)]="info_edit.password" [ngModelOptions]="{standalone: true}" name="password" placeholder="Mật khẩu" class="form-control"
+                                        type="password">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Lớp</label>
+                                    <div *ngFor="let item of auth.Class">
+                                        <input type="checkbox" (change)="onChangeEdit($event.target.checked, item)" [checked]="0"> {{item.tenlop}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <button type="submit" class="btn btn-primary btn-block" (click)="updateGV()"> Lưu </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

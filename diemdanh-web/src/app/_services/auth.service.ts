@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,29 +37,26 @@ export class AuthService {
     });
   }
   getClass(){
-    // this.ClassRef= this.db.object('LOP');
-    // this.ClassRef.snapshotChanges().pipe(map(item =>{
-    //   const data = item.payload.val();
-    //   const key = item.key;
-    //   // return {
-    //   //   key, ...data
-    //   // };
-    //   return data
-    // })).subscribe(data=>{
-    //   this.Class= data;
-    //   // this.Class=Object.keys(data).map(key => data[key]);
-    //   console.log("covert"+Object.keys(data).map(key => data[key]))
-    //   console.log("data: "+data);
-    // })
-    this.db.list('LOP').valueChanges().subscribe(lop => {
+    
+    let classRef: AngularFireList < any > =  this.db.list('LOP');
+    classRef.snapshotChanges()
+    .pipe(map(items => { // <== new way of chaining
+        return items.map(a => {
+            const data = a.payload.val();
+            const key = a.payload.key;
+            return {
+                key, ...data
+            }; // or {key, ...data} in case data is Obj
+        });
+    })).subscribe(lop =>{
       this.Class= lop;
-      console.log(this.Class);
     });
   }
    addGV(newdata){
     this.GVRef = this.db.list('GV');
     this.GVRef.push(newdata);
     console.log('added');
+    this.getGV();
    }
    updateGV(key, data){
     this.db.list('GV').update(key, data);
