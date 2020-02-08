@@ -25,7 +25,6 @@ export class EditLopComponent implements OnInit {
   lichDay = [];
   LopRef: AngularFireList<Lop> = null;
   private dbPath = null;
-
   constructor(public db: AngularFireDatabase, private activatedRoute: ActivatedRoute) {
     db.list('GV').valueChanges().subscribe(gv => this.GiaoVien = gv);
     this.activatedRoute.paramMap.subscribe(pramas=>{this.id=pramas.get('id')});
@@ -43,7 +42,6 @@ export class EditLopComponent implements OnInit {
     })).subscribe(Lop => {
       this.lop =  Lop.find(lop => lop.key === this.id);
       this.lichDay = this.lop.lichday;
-      setTimeout(()=>{console.log(this.lop);},5000)
     });
 
   }

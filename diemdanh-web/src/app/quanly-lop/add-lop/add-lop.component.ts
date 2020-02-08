@@ -75,6 +75,7 @@ export class AddLopComponent implements OnInit {
   hideInvalid() {
     this.LoiLichDay = false;
   }
+  // Tạo lớp mới
   onSubmit(){
     if( this.lichDay.length == 0 ) {
       this.LoiLichDay = true;

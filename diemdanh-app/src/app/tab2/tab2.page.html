@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Scan Code
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="scannedCode">
+          <ion-card-content>
+              Result from scan: {{ scannedCode }}
+          </ion-card-content>
+      </ion-card>
+</ion-content>
