@@ -39,8 +39,21 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputClass">Lớp</label>
-                                    <div *ngFor="let item of auth.Class">
-                                        <input type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0"> {{item.tenlop}}
+                                    <div *ngFor="let item of auth.Class; let i=index">
+                                        <!-- <input type="checkbox" [disabled]="checkClass(item)=='true'" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0"> {{item.tenlop}} -->
+                                        <ng-container *ngIf="checkClass(item); then thenTemplate; else elseTemplate"></ng-container>
+                                        <ng-template #thenTemplate>
+                                            <input id="checkform-{{i}}" type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0">
+                                            <label class="form-check-label" for="checkform-{{i}}">
+                                                {{item.tenlop}}
+                                            </label>
+                                        </ng-template>
+                                        <ng-template #elseTemplate>
+                                            <input id="checkform-{{i}}" type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0" disabled>
+                                            <label class="form-check-label" for="checkform-{{i}}">
+                                                {{item.tenlop}}
+                                            </label>
+                                        </ng-template>
                                     </div>
                                 </div>
                             </div>

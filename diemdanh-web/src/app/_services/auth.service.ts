@@ -12,6 +12,7 @@ export class AuthService {
   ClassRef: AngularFireObject<any>;
   GV;
   Class;
+  YClass;
   currentUser:any;
   returnUrl: string;
   constructor(private router: Router,private db: AngularFireDatabase, private route: ActivatedRoute) {
@@ -37,7 +38,6 @@ export class AuthService {
     });
   }
   getClass(){
-    
     let classRef: AngularFireList < any > =  this.db.list('LOP');
     classRef.snapshotChanges()
     .pipe(map(items => { // <== new way of chaining
@@ -50,6 +50,10 @@ export class AuthService {
         });
     })).subscribe(lop =>{
       this.Class= lop;
+      // console.log(lop)
+      this.YClass=lop.filter(z => !z.tengv);
+      console.log("Lớp chưa có giáo viên: ");
+      console.log(lop.filter(z => !z.tengv));
     });
   }
    addGV(newdata){

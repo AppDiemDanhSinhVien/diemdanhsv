@@ -27,6 +27,13 @@ export class QuanlyGVComponent implements OnInit {
   ngOnInit() {
     this.GiaoVien=this.auth.GV;
   }
+  checkClass(item){
+    if(this.auth.YClass.find(a => a.key === item.key)){
+      return true;
+    }else{
+      return false;
+    }
+  }
   onChange(checked, item){
     if(checked){
     this.newteacher.lop.push(item);
