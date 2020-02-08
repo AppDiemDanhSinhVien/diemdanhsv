@@ -1,0 +1,7 @@
+{
+  "name": "diemdanh-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
