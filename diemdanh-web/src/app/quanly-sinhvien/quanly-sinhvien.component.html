@@ -1,0 +1,154 @@
+<p>quanly-sinhvien works!</p>
+<div class="container-fluid" style="">
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr class="table-success table-borderless text-dark">
+                <th scope="col">Index</th>
+                <th scope="col">Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">Class</th>
+                <th scope="col">Present</th>
+                <th scope="col">Absent</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of auth.Student; let index = index">
+                <th scope="row" class="align-middle">{{index+1}}</th>
+                <td class="align-middle">{{i.tensv}}</td>
+                <td class="align-middle">{{i.mssv}}</td>
+                <td class="justify-content-center">
+                    <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
+                        <td><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
+                            href="#myModal" (click)="deleteClass(a.IDLop, i.lop, i.key)">{{a.IDLop}}</a></td>
+                    </tr>
+                    <!-- <tr class="table-borderless d-flex justify-content-center">
+                        <td>LTAndroid-2</td>
+                    </tr> -->
+                </td>
+                <td>
+                    <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
+                        <td class="bg-primary text-white">{{a.diemdanh.di}}</td>
+                    </tr>
+                <td>
+                    <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
+                        <td class="bg-warning text-danger">{{a.diemdanh.vang}}</td>
+                    </tr>
+                <td class="align-middle">
+                    <button type="button" class="btn btn-warning" (click)="editStudent(i)" data-toggle="modal"
+                        data-target="#editStudent">Edit</button>
+                    <button type="button" class="btn btn-warning" (click)="addClass(i)" data-toggle="modal"
+                        data-target="#newClass">Add Class</button>
+                    <button type="button" class="btn btn-danger" (click)="beforeDelete(i.tensv, i.key)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-warning" data-toggle="modal"
+                        data-target="#newStudent">Add New Student</button>
+</div>
+
+<!-- Modal add class cho SV -->
+<div *ngIf="data!=null" class="modal fade" id="newClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add a new class</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="col">
+                    <select required class="form-control" name="class" [(ngModel)]="class" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let i of filterUnregistered()" value="{{i.tenlop}}">
+                            <!-- <button *ngIf='checkSubject(i.tenlop)'>{{i.tenlop}}</button> -->
+                            {{i.tenlop}}
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="updateClass(data.key)">Add</button>
+            </div>    
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Model Edit Thong Tin Sinh Vien -->
+<div *ngIf= "data!=null" class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit student Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input type="email" class="form-control" name="email" [(ngModel)]="data.email" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password" [(ngModel)]="data.password" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="tensv" [(ngModel)]="data.tensv" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label>Student Id</label>
+                        <input type="text" class="form-control" name="mssv" [(ngModel)]="data.mssv" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label>Birthday</label>
+                        <input type="date" class="form-control" name="ngaysinh" [(ngModel)]="data.ngaysinh" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <button type="submit" class="btn btn-primary" (click)="updateStudent(data.key, data)">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Model Tao Sinh Vien Moi -->
+<div class="modal fade" id="newStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add new student</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label >Email</label>
+                            <input type="email" class="form-control" id="inputEmail4" placeholder="Email" [(ngModel)]="hocSinhMoi.email" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label >Password</label>
+                            <input type="password" class="form-control" id="inputPassword4" placeholder="Password" [(ngModel)]="hocSinhMoi.password" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label >Name</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Name" [(ngModel)]="hocSinhMoi.tensv" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label >Student Id</label>
+                        <input type="text" class="form-control" id="inputId" placeholder="3001 911 113" [(ngModel)]="hocSinhMoi.mssv" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label >Birthday</label>
+                        <input type="date" class="form-control" id="inputBirthday" placeholder="Birthday" [(ngModel)]="hocSinhMoi.ngaysinh" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <button type="submit" class="btn btn-primary" (click)="addStudent(hocSinhMoi)">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
