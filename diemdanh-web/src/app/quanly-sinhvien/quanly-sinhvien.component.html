@@ -61,7 +61,7 @@
             <div class="form-group">
                 <div class="col">
                     <select required class="form-control" name="class" [(ngModel)]="class" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let i of filterUnregistered()" value="{{i.tenlop}}">
+                        <option *ngFor="let i of filterUnregistered()" value="{{i.key}}">
                             {{i.tenlop}}
                         </option>
                     </select>
