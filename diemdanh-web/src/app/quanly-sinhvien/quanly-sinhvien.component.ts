@@ -18,6 +18,7 @@ export class QuanlySinhvienComponent implements OnInit {
     "tensv": "",
   }
   data: any  = null    
+  bata: any = null
   class                                                                     
   Classes
   num
@@ -46,8 +47,8 @@ export class QuanlySinhvienComponent implements OnInit {
   }
   //  Lay cac lop ma SV da dang ky
   addClass(cc){
-    this.data = cc
-    this.Classes = this.data.lop
+    this.bata = cc
+    this.Classes = this.bata.lop
     if(this.Classes == ""){
       this.Classes = []
     }
