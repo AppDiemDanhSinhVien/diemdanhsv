@@ -10,9 +10,11 @@ export class AuthService {
   UsersRef: AngularFireList < any > = null;
   GVRef: AngularFireList < any > = null;
   ClassRef: AngularFireObject<any>;
+  StudentRef: AngularFireList<any>
   GV;
   Class;
   YClass;
+  Student;
   currentUser:any;
   returnUrl: string;
   constructor(private router: Router,private db: AngularFireDatabase, private route: ActivatedRoute) {
@@ -21,6 +23,7 @@ export class AuthService {
 
     this.getGV();
     this.getClass();
+    this.getStudent();
    }
    getGV(){
     this.GVRef = this.db.list('GV');
@@ -56,6 +59,25 @@ export class AuthService {
       console.log(lop.filter(z => !z.tengv));
     });
   }
+  getStudent(){
+    this.StudentRef = this.db.list('SV')
+    // this.db.list('SV').valueChanges().subscribe(cc => {
+    //   this.Student= cc
+    //   console.log(this.Student)
+    // });
+    this.StudentRef.snapshotChanges()
+    .pipe(map(items => { // <== new way of chaining
+        return items.map(a => {
+            const data = a.payload.val();
+            const key = a.payload.key;
+            return {
+                key, ...data
+            }; // or {key, ...data} in case data is Obj
+        });
+    })).subscribe(cc =>{
+      this.Student= cc
+      console.log(this.Student)
+    })
    addGV(newdata){
     this.GVRef = this.db.list('GV');
     this.GVRef.push(newdata);
