@@ -61,10 +61,6 @@ export class AuthService {
   }
   getStudent(){
     this.StudentRef = this.db.list('SV')
-    // this.db.list('SV').valueChanges().subscribe(cc => {
-    //   this.Student= cc
-    //   console.log(this.Student)
-    // });
     this.StudentRef.snapshotChanges()
     .pipe(map(items => { // <== new way of chaining
         return items.map(a => {
@@ -77,7 +73,7 @@ export class AuthService {
     })).subscribe(cc =>{
       this.Student= cc
       console.log(this.Student)
-    })
+  })}
    addGV(newdata){
     this.GVRef = this.db.list('GV');
     this.GVRef.push(newdata);
