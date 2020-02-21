@@ -48,7 +48,7 @@
 </div>
 
 <!-- Modal add class cho SV -->
-<div *ngIf="data!=null" class="modal fade" id="newClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div *ngIf="bata!=null" class="modal fade" id="newClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -61,13 +61,12 @@
             <div class="form-group">
                 <div class="col">
                     <select required class="form-control" name="class" [(ngModel)]="class" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let i of filterUnregistered()" value="{{i.tenlop}}">
-                            <!-- <button *ngIf='checkSubject(i.tenlop)'>{{i.tenlop}}</button> -->
+                        <option *ngFor="let i of filterUnregistered()" value="{{i.key}}">
                             {{i.tenlop}}
                         </option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" (click)="updateClass(data.key)">Add</button>
+                <button type="submit" class="btn btn-primary" (click)="updateClass(bata.key)">Add</button>
             </div>    
         </div>
       </div>

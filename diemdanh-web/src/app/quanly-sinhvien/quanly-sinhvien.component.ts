@@ -18,7 +18,8 @@ export class QuanlySinhvienComponent implements OnInit {
     "tensv": "",
   }
   data: any  = null    
-  class                                                                     
+  bata: any = null
+  class                                                             
   Classes
   num
 
@@ -37,7 +38,6 @@ export class QuanlySinhvienComponent implements OnInit {
   // Chinh sua thong tin SV + binding data
   editStudent(cc){
     this.data = cc;
-    console.log(this.data);
   }
   // Cap nhat thong tin SV
   updateStudent(key, cc){
@@ -46,13 +46,11 @@ export class QuanlySinhvienComponent implements OnInit {
   }
   //  Lay cac lop ma SV da dang ky
   addClass(cc){
-    this.data = cc
-    this.Classes = this.data.lop
+    this.bata = cc
+    this.Classes = this.bata.lop
     if(this.Classes == ""){
       this.Classes = []
     }
-    console.log(this.Classes)
-    console.log(this.filterUnregistered())
   }
   // Loc ra cac lop chua dang ky
   filterUnregistered(){
@@ -70,8 +68,11 @@ export class QuanlySinhvienComponent implements OnInit {
   }
   // Them lop cho SV
   updateClass(cc){
-    let lop = {IDLop:this.class,diemdanh:{di:0,vang:0}}
-    console.log(this.Classes)
+    let tenLop
+    for(let o of this.auth.Class){
+      if(o.key == this.class){tenLop = o.tenlop}
+    }
+    let lop = {IDLop: tenLop,key :this.class,diemdanh:{di:0,vang:0}}
     this.Classes.push(lop)
     this.auth.StudentRef.update(cc,{"lop":this.Classes}) 
   }
