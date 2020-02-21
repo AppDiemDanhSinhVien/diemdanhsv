@@ -1,0 +1,52 @@
+<ion-content>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" (ngSubmit)="login()" >
+					<span class="login100-form-title p-b-26">
+						Welcome
+					</span>
+					<span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-font"></i>
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						
+						<ion-input class="input100" type="email" [(ngModel)]="email"  [ngModelOptions]="{standalone: true}" placeholder="Email" required ></ion-input>
+						
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<ion-input class="input100" [(ngModel)]="password"  [ngModelOptions]="{standalone: true}" required type="password"placeholder="Password" ></ion-input>
+						
+					</div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Login
+							</button>
+						</div>
+					</div>
+
+					<div class="text-center p-t-115">
+						<span class="txt1">
+							Forgot your account?
+						</span>
+
+						<a class="txt2" href="#">
+							Reset
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+</ion-content>
