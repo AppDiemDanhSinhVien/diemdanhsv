@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Three
+      Settings
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-button  class="btn-update" color="primary" (click)="popUpUpdate()"  *ngIf="!showForm">Update Infor</ion-button>
+  <ion-button  class="btn-update" color="warning" (click)="popUpUpdate()"  *ngIf="showForm">Cancel</ion-button>
+  <ion-button color="warning" class="btn-logout" (click)="logout()">Logout</ion-button>
+  <div class="formUpdate" *ngIf="showForm">
+    <form (ngSubmit)="UpdateInfor()">
+      <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item>
+          <ion-label position="stacked">Email <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required type="email" [(ngModel)]="email"  [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">password <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required type="password" [(ngModel)]="password"  [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Comfirm password <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required type="password"[(ngModel)]="comfirmPass"  [ngModelOptions]="{standalone: true}" ></ion-input>
+        </ion-item>
+               
+      </ion-list>
+
+      <div class="ion-padding" style="margin-top: 15px;">
+        <ion-button expand="block" type="submit" class="ion-no-margin">Update</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

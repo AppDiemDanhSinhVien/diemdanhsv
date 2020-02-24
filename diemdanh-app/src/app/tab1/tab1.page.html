@@ -1,24 +1,37 @@
 <ion-header>
   <ion-toolbar>
       <ion-title>
-          QR Code Generator and Scanner
+          Điểm Danh
       </ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content fullscreen>
+    <ion-card  *ngIf="User">
+      <img src="assets/images/user.png" />
+      <ion-card-header>
+        <ion-card-subtitle>{{User.email}}</ion-card-subtitle>
+        <ion-card-title>{{User.tensv}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+       Your infor
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
 
-<ion-content>
+<!-- <ion-content>
   <div class="ion-padding">
-      <ion-input type="text" placeholder="My QR data" [(ngModel)]="qrData">
-      </ion-input>
-
-
-      <button ion-button full icon-left (click)="createCode()">
-          <ion-icon name="barcode"></ion-icon>Create
-      </button>
-      <button ion-button full icon-left (click)="scanCode()">
-          <ion-icon name="qr-scanner"></ion-icon>Scan Code
-      </button>
-
+    <p>
+        <ion-chip color="primary">
+            <button ion-button full icon-left (click)="createCode()">
+                <ion-icon name="barcode"></ion-icon>Create
+            </button>
+        </ion-chip>
+        <ion-chip color="secondary">
+            <button ion-button full icon-left (click)="scanCode()">
+                <ion-icon name="qr-scanner"></ion-icon>Scan Code
+            </button>
+        </ion-chip>
+    </p>
       <ion-card *ngIf="createdCode">
           <ngx-qrcode [qrc-value]="createdCode">
           </ngx-qrcode>
@@ -34,4 +47,4 @@
           </ion-card-content>
       </ion-card>
   </div>
-</ion-content>
+</ion-content> -->
