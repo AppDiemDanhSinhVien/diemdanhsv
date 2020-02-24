@@ -118,7 +118,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label>Email</label>
+                                    <label>Mã số giáo viên</label>
                                     <input [ngStyle]="{'border': msRef.invalid &&  (msRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #msRef="ngModel" required [(ngModel)]="info_edit.msgv" [ngModelOptions]="{standalone: true}" name="msgv" class="form-control" placeholder="Mã số giáo viên"
                                         type="email">
                                 </div>
@@ -137,8 +137,14 @@
                                 <div class="form-group col-md-6">
                                     <label>Lớp</label>
                                     <div *ngFor="let item of auth.Class">
-                                        <input type="checkbox" (change)="onChangeEdit($event.target.checked, item)" [checked]="0"> {{item.tenlop}}
+                                        <input [disabled]="isDisabled(item)" type="checkbox" (change)="onChangeEdit($event.target.checked, item)" [checked]="isChecked(item.key)"> {{item.tenlop}}
                                     </div>
+                                    <!-- <select required class="form-control" name="class" [(ngModel)]="classes" [ngModelOptions]="{standalone: true}">
+                                        <option *ngFor="let i of filterClass()" value="{{i}}">
+                                            {{i.tenlop}}
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-primary" (click)="addClass()">Add</button> -->
                                 </div>
                             </div>
                             <div class="form-row">
