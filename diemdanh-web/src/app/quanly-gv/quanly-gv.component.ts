@@ -115,26 +115,26 @@ export class QuanlyGVComponent implements OnInit {
   delete(data){
     this.auth.delete(data.key)
   }
-  updateGV(){
+  async updateGV(){
     // update name of teacher in tab LOP
     for(let i=0; i< this.info_edit.lop.length; i++){
-      this.auth.updateClass(this.info_edit.lop[i].key, {"tengv": this.info_edit.tengv})
+      this.auth.updateClass(this.info_edit.lop[i].key, {"tengv": this.info_edit.tengv});
     }
 
     // update tab GV
-    this.auth.updateGV(this.info_edit.key, this.info_edit);
+    await this.auth.updateGV(this.info_edit.key, this.info_edit);
 
     // get all key of class in tab LOP
     let lop=[];
     for(let i=0; i< this.auth.Class.length; i++){
-      lop.push(this.auth.Class[i].key);
+      await lop.push(this.auth.Class[i].key);
     }
     console.log(lop);
 
     // get all key of class in tab GV
     this.auth.getGV();
     let cls=[];
-    this.auth.GV.forEach(e => {
+    await this.auth.GV.forEach(e => {
       e.lop.forEach(h => {
         cls.push(h.key)
       });
@@ -142,7 +142,7 @@ export class QuanlyGVComponent implements OnInit {
     console.log(cls);
 
     // filter key of class non have teacher
-    cls.forEach(e => {
+    await cls.forEach(e => {
       if(lop.indexOf(e) > -1){
         lop.splice(lop.indexOf(e), 1);
       }
@@ -151,7 +151,7 @@ export class QuanlyGVComponent implements OnInit {
 
     // update tab LOP when have non teacher in class
     for(let i=0; i< lop.length; i++){
-      this.auth.updateClass(lop[i], {tengv: null});
+      await this.auth.updateClass(lop[i], {tengv: null});
     }
   }
 }
