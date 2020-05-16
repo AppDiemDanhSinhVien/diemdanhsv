@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList  } from '@angular/fire/database';
-import { Observable } from 'rxjs'
+import { Observable, observable } from 'rxjs'
 import { map } from 'rxjs/operators';
 declare var $:any;
 
@@ -23,6 +23,7 @@ export class QuanlyLopComponent implements OnInit {
         this.loading = false;
       })
     }).catch(err => console.log(err));
+
   }
 
   ngOnInit() {
