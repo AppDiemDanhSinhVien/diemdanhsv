@@ -58,6 +58,7 @@ export class EditLopComponent implements OnInit {
     }else{
       this.LopRef.update(this.id, this.lop);
       $('.toast').toast('show');
+      $('.toast-body').text('update completed!');
     }
 
   }

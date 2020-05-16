@@ -7,7 +7,10 @@
  body {
   overflow-x: hidden;
 }
-
+#menu-toggle {
+  background: #afc3c3;
+    border-color: aliceblue;
+}
 #sidebar-wrapper {
   min-height: 100vh;
   margin-left: -15rem;
@@ -59,4 +62,10 @@
 .list-group-item{
   color: blueviolet;
   padding-left: 40px;;
+}
+.toast {
+  position: -webkit-sticky;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
 }

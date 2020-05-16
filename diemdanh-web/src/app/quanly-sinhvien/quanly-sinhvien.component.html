@@ -1,5 +1,5 @@
 <p>quanly-sinhvien works!</p>
-<div class="container-fluid" style="">
+<div class="container-fluid" >
     <table class="table table-bordered table-dark">
         <thead>
             <tr class="table-success table-borderless text-dark">
@@ -19,7 +19,7 @@
                 <td class="align-middle">{{i.mssv}}</td>
                 <td class="justify-content-center">
                     <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
-                        <td><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" 
+                        <td><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp"
                             href="#myModal" (click)="deleteClass(a.IDLop, i.lop, i.key)">{{a.IDLop}}</a></td>
                     </tr>
                     <!-- <tr class="table-borderless d-flex justify-content-center">
@@ -67,7 +67,7 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary" (click)="updateClass(bata.key)">Add</button>
-            </div>    
+            </div>
         </div>
       </div>
     </div>

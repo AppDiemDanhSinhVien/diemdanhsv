@@ -40,9 +40,9 @@ export class AuthService {
       this.GV= gv;
     });
   }
-  getClass(){
+  async getClass(){
     let classRef: AngularFireList < any > =  this.db.list('LOP');
-    classRef.snapshotChanges()
+   await classRef.snapshotChanges()
     .pipe(map(items => { // <== new way of chaining
         return items.map(a => {
             const data = a.payload.val();
@@ -52,11 +52,7 @@ export class AuthService {
             }; // or {key, ...data} in case data is Obj
         });
     })).subscribe(lop =>{
-      this.Class= lop;
-      // console.log(lop)
-      this.YClass=lop.filter(z => !z.tengv);
-      console.log("Lớp chưa có giáo viên: ");
-      console.log(lop.filter(z => !z.tengv));
+      this.Class = lop;
     });
   }
   getStudent(){
@@ -72,7 +68,6 @@ export class AuthService {
         });
     })).subscribe(cc =>{
       this.Student= cc
-      console.log(this.Student)
   })}
    addGV(newdata){
     this.GVRef = this.db.list('GV');

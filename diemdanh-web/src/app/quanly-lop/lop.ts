@@ -3,4 +3,5 @@ export class Lop {
   tenlop: string;
   lichday: any;
   ngaybatdau:string;
+  sobuoihoc: number;
 }

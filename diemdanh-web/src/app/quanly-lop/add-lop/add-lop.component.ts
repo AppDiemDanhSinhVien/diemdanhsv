@@ -36,6 +36,7 @@ export class AddLopComponent implements OnInit {
       TenLop: ['', Validators.required],
       NgayBatDau: ['', Validators.required],
       ChonGiaoVien: ['', Validators.required],
+      SoBuoiHoc: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
     });
 
 
@@ -85,6 +86,7 @@ export class AddLopComponent implements OnInit {
        this.lop.tenlop = this.addForm.get('TenLop').value;
        this.lop.tengv = this.addForm.get('ChonGiaoVien').value;
        this.lop.ngaybatdau = this.addForm.get('NgayBatDau').value;
+       this.lop.sobuoihoc = this.addForm.get('SoBuoiHoc').value;
        this.lop.lichday = this.lichDay;
        const itemsRef = this.db.list('LOP');
         itemsRef.push(this.lop);
@@ -92,6 +94,7 @@ export class AddLopComponent implements OnInit {
        // this.lichDay = [];
         this.addForm.reset;
       $('.toast').toast('show');
+      $('.toast-body').text('add success!')
       } else alert('Tạo thất bại. Hãy nhập đầy đủ thông tin!');
      }
   }

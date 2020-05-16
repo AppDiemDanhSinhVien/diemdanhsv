@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {AuthService} from './_services/auth.service';
 declare var $: any;
 @Component({
@@ -17,12 +17,9 @@ export class AppComponent {
         this.loggedIn = true;
       }
    }
+  menuToggle() {
+    $("#wrapper").toggleClass("toggled");
 
-   ngOnInit() {
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
   }
   logout() {
     this.loggedIn = false;

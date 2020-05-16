@@ -1,21 +1,39 @@
 <div>
   <h3 style="text-align: center;margin-top: 50px;margin-bottom: 25px;">Danh sách lớp học</h3>
-  <input id="mySearch" type="text" placeholder="Search..">
+  <input (keyup)="searchLop($event)"type="text" placeholder="Search any thing..." *ngIf="!loading">
+  <span style="position: absolute;right: 5em;"*ngIf="!loading">
+    <button type="button" [routerLink]="['/quanly-lop/them-lop']" style="font-weight: 900;font-size: 17px"  class="btn btn-info"> + </button>
+  </span>
   <br><br>
-  <table class="table table-hover" >
-    <thead>
+  <div id="loading" *ngIf="loading">
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-danger" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-info" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <table class="table table-hover" *ngIf="!loading">
+    <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Tên Lớp</th>
+        <th scope="col">Tên Lớp <span (click)="sortNewToOld()"style="margin-left: s5px;color: aqua;cursor: pointer;">?</span></th>
         <th scope="col">Giảng Viên</th>
         <th scope="col">Lịch Học</th>
         <th scope="col">Ngày Bắt Đầu</th>
+        <th scope="col">Số Buổi Học</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody id="BangLop">
-      <tr *ngFor="let lop of Lop | async; let i = index">
+      <tr *ngFor="let lop of Lop ; let i = index">
         <th scope="row">{{i}}</th>
         <td>{{lop.tenlop}}</td>
         <td>{{lop.tengv}}</td>
@@ -32,6 +50,10 @@
           </tr>
         </td>
         <td> {{lop.ngaybatdau}}</td>
+        <td >
+          <span *ngIf="lop.sobuoihoc">{{lop.sobuoihoc}}</span>
+          <span *ngIf="!lop.sobuoihoc">Chưa có</span>
+         </td>
         <td>
           <button type="button"[routerLink]="['/quanly-lop/edit',lop.key]"  class="btn btn-info">Edit</button>
         </td>
@@ -42,18 +64,5 @@
 
     </tbody>
   </table>
-   <!-- Toast -->
-   <div class="toast"style="position: absolute; bottom: 10px; right: 10px;">
-    <div class="toast-header" style="background: #9cf909; width:200px">
 
-      <strong class="mr-auto">Jenick'JK</strong>
-      <small>now</small>
-      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="toast-body">
-     Deleted success!
-    </div>
-  </div>
 </div>
