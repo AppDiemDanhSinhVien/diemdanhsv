@@ -87,9 +87,12 @@ export class Tab2Page {
                                 idLop: this.keyLop
                             });
                             this.storage.set('Lop_ScannedSuccess', this.Lop_ScannedSuccess);
+                            console.log(`User have ID ${ user.key}  took attendance `);                           
                         });
                     } else {
                         this.scannedError = true;
+                        console.log("diem danh that bai " )
+                        console.log( this.Lop)
                     }
                 }, 2500);
             }

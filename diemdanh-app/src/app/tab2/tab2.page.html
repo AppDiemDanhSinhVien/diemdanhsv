@@ -22,7 +22,7 @@
 
           <ion-title>Giảng viên:
               <ion-text color="primary" *ngIf="Lop">
-                  {{Lop.tengv}}
+                  {{Lop.tengv ? Lop.tengv : 'Update late'}}
               </ion-text>
           </ion-title>
           <ion-title *ngIf="scanLast">Quét lần cuối:

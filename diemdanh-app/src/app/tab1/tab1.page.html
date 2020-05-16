@@ -13,38 +13,9 @@
         <ion-card-title>{{User.tensv}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-       Your infor
+       Your info
       </ion-card-content>
     </ion-card>
+    <ion-button (click)="registerLocalNotification(3000)">3 seconds</ion-button>
+    <ion-button (click)="registerLocalNotification(10000)">10 second</ion-button>
   </ion-content>
-
-<!-- <ion-content>
-  <div class="ion-padding">
-    <p>
-        <ion-chip color="primary">
-            <button ion-button full icon-left (click)="createCode()">
-                <ion-icon name="barcode"></ion-icon>Create
-            </button>
-        </ion-chip>
-        <ion-chip color="secondary">
-            <button ion-button full icon-left (click)="scanCode()">
-                <ion-icon name="qr-scanner"></ion-icon>Scan Code
-            </button>
-        </ion-chip>
-    </p>
-      <ion-card *ngIf="createdCode">
-          <ngx-qrcode [qrc-value]="createdCode">
-          </ngx-qrcode>
-
-          <ion-card-content>
-              Value: {{ createdCode }}
-          </ion-card-content>
-      </ion-card>
-
-      <ion-card *ngIf="scannedCode">
-          <ion-card-content>
-              Result from scan: {{ scannedCode }}
-          </ion-card-content>
-      </ion-card>
-  </div>
-</ion-content> -->

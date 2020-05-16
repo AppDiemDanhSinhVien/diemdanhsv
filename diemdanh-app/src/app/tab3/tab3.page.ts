@@ -48,11 +48,10 @@ export class Tab3Page {
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Updating...',
-      duration: 1500 
+      duration: 1000 
     });
     await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
+    await loading.onDidDismiss();
     this.Alert('Success', 'Updated your infor');
   }
   async Alert(title,msg) {
