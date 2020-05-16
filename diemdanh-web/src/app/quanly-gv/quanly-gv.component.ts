@@ -28,10 +28,20 @@ export class QuanlyGVComponent implements OnInit {
 
   ngOnInit() {
     this.GiaoVien=this.auth.GV;
-    
+  }
+  async addnow(){
+    let cls= this.auth.Class;
+    let result=[];
+    await cls.forEach(e => {
+      if(e.tengv == null || e.tengv == ''){
+        result.push(e);
+      }
+    })
+    this.classes= result;
+    console.log(this.classes);
   }
    checkClass(item){
-     if( this.auth.YClass.find(a => a.key === item.key)){
+     if( this.auth.Class.find(a => a.key === item.key)){
       return true;
     }else{
       return false;
@@ -43,7 +53,6 @@ export class QuanlyGVComponent implements OnInit {
     } else {
       this.newteacher.lop.splice(this.newteacher.lop.indexOf(item), 1)
     }
-    // console.log(this.newteacher.lop)
   }
   onChangeEdit(checked, item){
     if(checked){
@@ -51,19 +60,30 @@ export class QuanlyGVComponent implements OnInit {
     } else {
       this.info_edit.lop.splice(this.info_edit.lop.indexOf(item), 1)
     }
-    console.log(this.info_edit.lop);
+    console.log("Danh sách lớp có thể chọn: ");
+    console.log(this.ClassNoHaveTeacher());
+    console.log("Danh sách lớp không thể chọn: ");
+    console.log(this.ClassHaveTeacher());
   }
   addGV(){
     this.auth.addGV(this.newteacher);
+    this.newteacher={
+      "email": "",
+      "password": "",
+      "msgv": "",
+      "tengv": "",
+      "ngaysinh": "",
+      "lop": []
+    };
+    this.ClassHaveTeacher();
+    this.ClassNoHaveTeacher();
   }
   editGV(data){
     this.info_edit= data;
     this.edit= true;
-    console.log("Danh sách lớp của giáo viên đang chỉnh sửa: ");
-    console.log(this.info_edit.lop);
-    console.log("Danh sách gồm lớp chưa có giáo viên và lớp của giáo viên đang chỉnh sửa: ");
+    console.log("Danh sách gồm lớp có thể chọn: ");
     console.log(this.ClassNoHaveTeacher());
-    console.log("Danh sách lớp đã có giáo viên dạy: ");
+    console.log("Danh sách lớp không thể chọn: ");
     console.log(this.ClassHaveTeacher());
   }
   // check disable when is class have teacher
@@ -98,6 +118,7 @@ export class QuanlyGVComponent implements OnInit {
       }
     })
     // console.log(result);
+    this.classes= result;
     return result;
   }
   // Class have teacher

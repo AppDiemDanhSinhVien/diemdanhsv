@@ -13,7 +13,7 @@ export class AuthService {
   StudentRef: AngularFireList<any>
   GV;
   Class;
-  YClass;
+  // YClass;
   Student;
   currentUser:any;
   returnUrl: string;
