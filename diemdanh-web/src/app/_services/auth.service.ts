@@ -11,10 +11,10 @@ export class AuthService {
   GVRef: AngularFireList < any > = null;
   ClassRef: AngularFireObject<any>;
   StudentRef: AngularFireList<any>
-  GV;
-  Class;
-  // YClass;
-  Student;
+  GV; // <= tất cả giáo viên  
+  Class; // <= tất cả các lớp
+  YClass; // <= lớp chưa có giáo viên
+  Student; // <= tất cả học sinh
   currentUser:any;
   returnUrl: string;
   constructor(private router: Router,private db: AngularFireDatabase, private route: ActivatedRoute) {
@@ -40,9 +40,9 @@ export class AuthService {
       this.GV= gv;
     });
   }
-  async getClass(){
+  getClass(){
     let classRef: AngularFireList < any > =  this.db.list('LOP');
-   await classRef.snapshotChanges()
+    classRef.snapshotChanges()
     .pipe(map(items => { // <== new way of chaining
         return items.map(a => {
             const data = a.payload.val();
@@ -52,7 +52,9 @@ export class AuthService {
             }; // or {key, ...data} in case data is Obj
         });
     })).subscribe(lop =>{
-      this.Class = lop;
+      this.Class= lop;
+      // console.log(lop)
+      this.YClass=lop.filter(z => !z.tengv);
     });
   }
   getStudent(){
@@ -68,7 +70,30 @@ export class AuthService {
         });
     })).subscribe(cc =>{
       this.Student= cc
+      console.log(this.Student)
   })}
+  // Class no have teacher + this class
+  ClassNoHaveTeacher(){
+    let result=[];
+    this.Class.forEach(e => {
+      if(e.tengv == null || e.tengv == ''){
+        result.push(e);
+      }
+    })
+    // console.log(result);
+    return result;
+  }
+  // Class have teacher
+  ClassHaveTeacher(){
+    let result=[];
+    this.Class.forEach(e => {
+      if(e.tengv != null){
+        result.push(e);
+      }
+    })
+    // console.log(result);
+    return result;
+  }
    addGV(newdata){
     this.GVRef = this.db.list('GV');
     this.GVRef.push(newdata);
