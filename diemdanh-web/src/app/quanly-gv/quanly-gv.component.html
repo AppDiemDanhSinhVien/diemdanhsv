@@ -1,14 +1,14 @@
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6">
         <!-- <button (click)="addnew()" class="btn btn-warning btn-addGV" data-toggle="modal" data-target="#newteacher">Thêm giáo viên</button> -->
-        <button  class="btn btn-warning btn-addGV" data-toggle="modal" data-target="#newteacher">Thêm giáo viên</button>
+        <button class="btn btn-warning btn-addGV" data-toggle="modal" data-target="#newteacher">Thêm giáo viên</button>
         <!-- Modal Add Giáo viên -->
-        <div class="modal fade" id="newteacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="newteacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-center" id="exampleModalLabel">Thêm giáo viên mới</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" id="close_add_modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -40,22 +40,8 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputClass">Lớp</label>
-                                    <div *ngFor="let item of ClassNoHaveTeacher(); let i=index">
-                                        <input type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0"> {{item.tenlop}}
-                                        <!-- <input type="checkbox" [disabled]="checkClass(item)=='true'" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0"> {{item.tenlop}} -->
-                                        <!-- <ng-container *ngIf="checkClass(item); then thenTemplate; else elseTemplate"></ng-container>
-                                        <ng-template #thenTemplate>
-                                            <input id="checkform-{{i}}" type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0">
-                                            <label class="form-check-label" for="checkform-{{i}}">
-                                                {{item.tenlop}}
-                                            </label>
-                                        </ng-template>
-                                        <ng-template #elseTemplate>
-                                            <input id="checkform-{{i}}" type="checkbox" (change)="onChange($event.target.checked, item)" [checked]="auth.Class.indexOf(item) < 0" disabled>
-                                            <label class="form-check-label" for="checkform-{{i}}">
-                                                {{item.tenlop}}
-                                            </label>
-                                        </ng-template> -->
+                                    <div *ngFor="let item of noTeacher">
+                                        <input type="checkbox" (change)="onChange($event.target.checked , item)" [checked]="newteacher.mon.indexOf(item) > -1"> {{item.tenmonhoc}}
                                     </div>
                                 </div>
                             </div>
@@ -82,12 +68,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of GiaoVien; let i=index">
+                <tr *ngFor="let item of auth.GV; let i=index">
                     <th scope="row">{{i}}</th>
                     <td>{{item.tengv}}</td>
                     <td>{{item.email}}</td>
                     <td>
-                        <span *ngFor="let lop of item.lop">{{lop.tenlop}} - </span>
+                        <span *ngFor="let lop of item.mon">{{lop.tenmonhoc}} - </span>
                     </td>
                     <td>
                         <button type="button" class="btn btn-warning" (click)="editGV(item)" data-toggle="modal" data-target="#edit_gv_modal">Edit</button>
@@ -102,7 +88,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title text-center" id="exampleModalLabel">Chỉnh sửa thông tin giáo viên</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" id="close_edit_modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -126,8 +112,8 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Ngày sinh</label>
-                                    <input [ngStyle]="{'border': snRef.invalid &&  (snRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #snRef="ngModel" required [(ngModel)]="edit_on.ngaysinh" [ngModelOptions]="{standalone: true}" name="ngaysinh" class="form-control" type="date"
-                                        value="1980-01-01" id="example-date-input">
+                                    <input [ngStyle]="{'border': snRef.invalid &&  (snRef.touched ) ? '2px solid red' : '2px solid #ced4da'}" #snRef="ngModel" required [(ngModel)]="edit_on.ngaysinh" [ngModelOptions]="{standalone: true}" name="ngaysinh" class="form-control" type="date" value="1980-01-01"
+                                        id="example-date-input">
                                 </div>
                             </div>
                             <div class="form-row">
@@ -139,14 +125,8 @@
                                 <div class="form-group col-md-6">
                                     <label>Lớp</label>
                                     <div *ngFor="let item of class_edit">
-                                        <input type="checkbox" (change)="onChangeEdit($event.target.checked, item)" [checked]="isChecked(item.key)"> {{item.tenlop}}
+                                        <input type="checkbox" (change)="onChangeEdit($event.target.checked, item)" [checked]="edit_on.mon.indexOf(item) > -1"> {{item.tenmonhoc}}
                                     </div>
-                                    <!-- <select required class="form-control" name="class" [(ngModel)]="classes" [ngModelOptions]="{standalone: true}">
-                                        <option *ngFor="let i of filterClass()" value="{{i}}">
-                                            {{i.tenlop}}
-                                        </option>
-                                    </select>
-                                    <button class="btn btn-primary" (click)="addClass()">Add</button> -->
                                 </div>
                             </div>
                             <div class="form-row">
