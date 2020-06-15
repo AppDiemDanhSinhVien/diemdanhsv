@@ -1,5 +1,5 @@
 <div>
-  <h3 style="text-align: center;margin-top: 50px;margin-bottom: 25px;">Danh sách lớp học</h3>
+  <h3 style="text-align: center;margin-top: 50px;margin-bottom: 25px;">Danh sách môn học</h3>
   <input (keyup)="searchLop($event)"type="text" placeholder="Search any thing..." *ngIf="!loading">
   <span style="position: absolute;right: 5em;"*ngIf="!loading">
     <button type="button" [routerLink]="['/quanly-lop/them-lop']" style="font-weight: 900;font-size: 17px"  class="btn btn-info"> + </button>
@@ -23,42 +23,50 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Tên Lớp <span (click)="sortNewToOld()"style="margin-left: s5px;color: aqua;cursor: pointer;">?</span></th>
+        <th scope="col">Môn học <span (click)="sortNewToOld()"style="margin-left: s5px;color: aqua;cursor: pointer;">?</span></th>
         <th scope="col">Giảng Viên</th>
         <th scope="col">Lịch Học</th>
         <th scope="col">Ngày Bắt Đầu</th>
         <th scope="col">Số Buổi Học</th>
+        <th scope="col">Số Lượng SV</th>
+        <th scope="col">Trạng Thái</th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody id="BangLop">
-      <tr *ngFor="let lop of Lop ; let i = index">
+      <tr *ngFor="let mh of MonHoc ; let i = index">
         <th scope="row">{{i}}</th>
-        <td>{{lop.tenlop}}</td>
-        <td>{{lop.tengv}}</td>
+        <td>{{mh.tenmonhoc}}</td>
+        <td>{{mh.tengv}}</td>
         <td>
           <tr >
             <th>Thứ</th>
             <th>Giờ BĐ</th>
             <th>Giờ KT</th>
           </tr>
-          <tr *ngFor="let ld of lop.lichday">
-            <td>{{ld.thuday}}</td>
-             <td> {{ld.gioday.giobd}}</td>
-             <td> {{ld.gioday.giokt}}</td>
+          <tr >
+            <td>{{mh.lichday.thuday}}</td>
+             <td> {{mh.lichday.gioday.giobd}}</td>
+             <td> {{mh.lichday.gioday.giokt}}</td>
           </tr>
         </td>
-        <td> {{lop.ngaybatdau}}</td>
+        <td> {{mh.ngaybatdau}}</td>
         <td >
-          <span *ngIf="lop.sobuoihoc">{{lop.sobuoihoc}}</span>
-          <span *ngIf="!lop.sobuoihoc">Chưa có</span>
+          <span *ngIf="mh.sobuoihoc">{{mh.sobuoihoc}}</span>
+          <span *ngIf="!mh.sobuoihoc">Chưa có</span>
          </td>
+         <td> {{getSV_HocMonNay(mh.id).length}}</td>
+         <td>
+
+            <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 0"  style="color: chocolate;"> Chưa bắt đầu</span>
+            <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 1" style="color: green;"> Đã bắt đầu</span>
+          </td>
         <td>
-          <button type="button"[routerLink]="['/quanly-lop/edit',lop.key]"  class="btn btn-info">Edit</button>
+          <button type="button"[routerLink]="['/quanly-lop/edit',mh.id]"  class="btn btn-info">Edit</button>
         </td>
         <td>
-          <button type="button" class="btn btn-danger" (click)="deleteLop(lop.key)">Delete</button>
+          <button type="button" class="btn btn-danger" (click)="deleteLop(mh.id)">Delete</button>
         </td>
       </tr>
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFireDatabase} from '@angular/fire/database';
-import {  FormBuilder, Validators, FormGroup, ReactiveFormsModule }from "@angular/forms";
-import {Lop} from '../lop';
-declare var $:any;
+import { AngularFireDatabase } from '@angular/fire/database';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { MonHoc } from '../monhoc';
+declare var $: any;
 @Component({
   selector: 'app-add-lop',
   templateUrl: './add-lop.component.html',
@@ -12,19 +12,20 @@ export class AddLopComponent implements OnInit {
   addForm: FormGroup;
   LoiLichDay = false;
   GiaoVien: any;
-  lop: Lop = new Lop;
+  Monhoc: MonHoc = new MonHoc;
   schedule = {
     thuday: null,
-    gioday: {giobd: null, giokt: null}
+    gioday: { giobd: null, giokt: null }
   };
   editSchedule = {
     thuday: null,
-    gioday: {giobd: null, giokt: null}
+    gioday: { giobd: null, giokt: null }
   };
   lichDay = [];
   index = -1;
+  isAdding = false;
   constructor(public db: AngularFireDatabase, private formBuilder: FormBuilder) {
-   db.list('GV').valueChanges().subscribe(gv => this.GiaoVien = gv);
+    db.list('GV').valueChanges().subscribe(gv => this.GiaoVien = gv);
   }
 
   ngOnInit() {
@@ -33,9 +34,9 @@ export class AddLopComponent implements OnInit {
       autohide: true
     });
     this.addForm = this.formBuilder.group({
-      TenLop: ['', Validators.required],
+      TenMonHoc: ['', Validators.required],
       NgayBatDau: ['', Validators.required],
-      ChonGiaoVien: ['', Validators.required],
+      ChonGiaoVien: [''],
       SoBuoiHoc: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
     });
 
@@ -44,26 +45,22 @@ export class AddLopComponent implements OnInit {
   get addF() {
     return this.addForm.controls;
   }
-  themNgay(){
-    if(this.schedule.thuday == null || this.schedule.gioday.giobd == null || this.schedule.gioday.giokt == null ){
+  themNgay() {
+    if (this.schedule.thuday == null || this.schedule.gioday.giobd == null || this.schedule.gioday.giokt == null) {
       alert('Lỗi! Hãy nhập đầy đủ thông tin')
-    }else{
+    } else {
       this.lichDay.push(this.schedule);
-      this.schedule = {
-        thuday: null,
-        gioday: {giobd: null, giokt: null}
-    }
     }
 
   }
-  removeLich(i){
+  removeLich(i) {
     var result = confirm('are you sure remove this ?');
-    if(result) {
+    if (result) {
       this.lichDay.splice(i, 1);
     }
 
   }
-  editLich(i){
+  editLich(i) {
     $('#editSchedule').modal('show');
     this.index = i;
     this.editSchedule = this.lichDay[i];
@@ -77,25 +74,45 @@ export class AddLopComponent implements OnInit {
     this.LoiLichDay = false;
   }
   // Tạo lớp mới
-  onSubmit(){
-    if( this.lichDay.length == 0 ) {
+  onSubmit() {
+
+    if (this.lichDay.length == 0) {
       this.LoiLichDay = true;
-      alert('Tạo thất bại. Hãy nhập đầy đủ thông tin!');
-    }else{
-     if (this.addForm.valid ) {
-       this.lop.tenlop = this.addForm.get('TenLop').value;
-       this.lop.tengv = this.addForm.get('ChonGiaoVien').value;
-       this.lop.ngaybatdau = this.addForm.get('NgayBatDau').value;
-       this.lop.sobuoihoc = this.addForm.get('SoBuoiHoc').value;
-       this.lop.lichday = this.lichDay;
-       const itemsRef = this.db.list('LOP');
-        itemsRef.push(this.lop);
-        this.lop = new Lop;
-       // this.lichDay = [];
+      alert('Thêm thất bại. Hãy nhập đầy đủ thông tin!');
+    } else {
+      if (this.addForm.valid) {
+        this.isAdding = true;
+        this.Monhoc.tenmonhoc = this.addForm.get('TenMonHoc').value;
+        this.Monhoc.tengv = this.addForm.get('ChonGiaoVien').value;
+        this.Monhoc.ngaybatdau = this.addForm.get('NgayBatDau').value;
+        this.Monhoc.sobuoihoc = this.addForm.get('SoBuoiHoc').value;
+        this.Monhoc.lichday = this.schedule;
+
+       this.themMonHoc().then(() => {
+        this.Monhoc = new MonHoc;
         this.addForm.reset;
-      $('.toast').toast('show');
-      $('.toast-body').text('add success!')
-      } else alert('Tạo thất bại. Hãy nhập đầy đủ thông tin!');
-     }
+        this.isAdding = false;
+        $('.toast').toast('show');
+        $('.toast-body').text('add success!')
+       }).catch(err => {
+        $('.toast').toast('show');
+        $('.toast-body').text('add ERROR')
+       })
+      } else alert('Thêm thất bại. xin hãy thêm môn học lại sau');
+    }
   }
+   themMonHoc() {
+     return new Promise((resolve, reject) => {
+      const itemsRef = this.db.list('MonHoc');
+      try{
+        let newMonHoc = itemsRef.push(this.Monhoc).key;
+        itemsRef.update(newMonHoc, { id: newMonHoc});
+      }catch(err) {
+        reject(err)
+      }
+      resolve("done!");
+     });
+  }
+
+
 }

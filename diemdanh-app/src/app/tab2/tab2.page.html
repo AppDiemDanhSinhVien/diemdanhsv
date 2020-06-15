@@ -8,21 +8,21 @@
 
 <ion-content>
   <ion-card *ngIf="scannedCode" class="animated  tada ">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQhTrBe17e6ipjlDTJ-hRsz3Ox9xJmVqVX4kvBK1ubcwaQUfW63" />
+      <img src="assets/images/success.png">
       <ion-card-header>
           <ion-card-subtitle>Success</ion-card-subtitle>
           <ion-card-title style="text-align: center;">Đã điểm danh</ion-card-title>
       </ion-card-header>
       <ion-card-content>
           <ion-title>Môn học :
-              <ion-text color="secondary" *ngIf="Lop">
-                  {{Lop.tenlop}}
+              <ion-text color="secondary" *ngIf="MonHoc">
+                  {{MonHoc.tenmonhoc}}
               </ion-text>
           </ion-title>
 
           <ion-title>Giảng viên:
-              <ion-text color="primary" *ngIf="Lop">
-                  {{Lop.tengv ? Lop.tengv : 'Update late'}}
+              <ion-text color="primary" *ngIf="MonHoc">
+                  {{MonHoc.tengv ? MonHoc.tengv : 'Update late'}}
               </ion-text>
           </ion-title>
           <ion-title *ngIf="scanLast">Quét lần cuối:

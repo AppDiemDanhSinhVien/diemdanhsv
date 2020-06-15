@@ -11,19 +11,23 @@ declare var $:any;
 })
 export class QuanlyLopComponent implements OnInit {
   itemsRef: AngularFireList<any>;
-  Lop: any;
+  MonHoc: any;
   loading = true;
+  allSV;
   constructor(db: AngularFireDatabase) {
 
-  this.itemsRef = db.list('LOP');
+  this.itemsRef = db.list('MonHoc');
 
-    this.getLopHoc().then(result => {
+    this.getMonHoc().then(result => {
       result.subscribe(val => {
-        this.Lop = val;
+        this.MonHoc = val;
         this.loading = false;
       })
     }).catch(err => console.log(err));
 
+    db.list('SV').valueChanges().subscribe((val: any) => {
+      this.allSV = val;
+    })
   }
 
   ngOnInit() {
@@ -33,7 +37,7 @@ export class QuanlyLopComponent implements OnInit {
     });
     // Tìm kiếm lớp
   }
-  async getLopHoc() {
+  async getMonHoc() {
      return await this.itemsRef.snapshotChanges().pipe(
         map(changes =>
           changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
@@ -51,7 +55,7 @@ export class QuanlyLopComponent implements OnInit {
   }
   // sort lop
   sortNewToOld() {
-   this.Lop.reverse()
+   this.MonHoc.reverse()
   }
   searchLop(event: any) {
     let xoaDau = function xoa_dau(str) {
@@ -78,5 +82,26 @@ export class QuanlyLopComponent implements OnInit {
       });
 
   }
+  getSV_HocMonNay(idLop: string) {
+    let arrSV = [];
+    this.allSV.forEach(sv => {
 
+      let svFind =  Object.values(sv.lop).find((l: any) => l.idLop === idLop);
+      if(svFind){
+        arrSV.push(sv)
+       }
+     });
+     return arrSV;
+  }
+  getStatusMonHoc(ngayBD) {
+    let now = new Date().getTime();
+    ngayBD = new Date(ngayBD).getTime();
+
+    if(now < ngayBD) {
+      return 0;
+    }else{
+      return 1;
+      }
+
+    }
 }

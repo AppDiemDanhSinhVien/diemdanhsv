@@ -2,21 +2,18 @@
   <h3 style="text-align: center;margin-top: 50px;margin-bottom: 25px;"> Thêm Lớp</h3>
   <form [formGroup]="addForm"  (ngSubmit)="onSubmit()" >
     <div class="form-group">
-      <label for="exampleInputEmail1">Tên Lớp</label>
-      <input type="text" class="form-control" autofocus placeholder="abc"  formControlName="TenLop" required  >
-      <div *ngIf="addF.TenLop.invalid && (addF.TenLop.dirty || addF.TenLop.touched)">
-      <small  style="color:red"  class="form-text" *ngIf="addF.TenLop.errors.required">nhập tên lớp học</small>
+      <label for="exampleInputEmail1">Tên Môn học</label>
+      <input type="text" class="form-control" autofocus placeholder="name teacher"  formControlName="TenMonHoc" required  >
+      <div *ngIf="addF.TenMonHoc.invalid && (addF.TenMonHoc.dirty || addF.TenMonHoc.touched)">
+      <small  style="color:red"  class="form-text" *ngIf="addF.TenMonHoc.errors.required">nhập tên môn học</small>
       </div>
     </div>
     <div class="form-group">
       <label for="exampleFormControlSelect1">Chọn Giảng Viên</label>
-      <select class="form-control" formControlName="ChonGiaoVien" required>
+      <select class="form-control" formControlName="ChonGiaoVien" >
         <option value="">choose teacher</option>
         <option *ngFor="let gv of GiaoVien" >{{gv.tengv}}</option>
       </select>
-      <div *ngIf="addF.ChonGiaoVien.invalid && (addF.ChonGiaoVien.dirty || addF.ChonGiaoVien.touched)">
-        <small  style="color:red"  class="form-text" *ngIf="addF.ChonGiaoVien.errors.required">Chon giao vien</small>
-        </div>
     </div>
     <div class="form-group">
       <label> Số buổi học</label>
@@ -40,7 +37,7 @@
 
         <small *ngIf="LoiLichDay" style="color:red"  class="form-text" >Chọn thời khóa biểu</small>
       <!-- Button trigger modal -->
-      <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter" (click)="hideInvalid()">
+      <button type="button" *ngIf="lichDay.length == 0" class="btn" data-toggle="modal" data-target="#exampleModalCenter" (click)="hideInvalid()">
         <i class="fa fa-calendar"></i>
       </button>
 
@@ -146,8 +143,29 @@
       </tbody>
     </table>
 
-
-  <button type="submit" style="margin-top: 50px;"class="btn btn-primary">Tạo Lớp</button>
+    <div *ngIf="isAdding">
+      <div class="spinner-grow text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      <div class="spinner-grow text-info" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  <button type="submit" *ngIf="!isAdding" style="margin-top: 50px;"class="btn btn-primary">
+    Thêm Môn Học
+  </button>
   </form>
 
 </div>

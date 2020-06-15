@@ -28,10 +28,10 @@ export class QuanlyGVComponent implements OnInit {
 
   ngOnInit() {
     this.GiaoVien=this.auth.GV;
-    
+
   }
    checkClass(item){
-     if( this.auth.YClass.find(a => a.key === item.key)){
+     if( this.auth.Class.find(a => a.key === item.key)){
       return true;
     }else{
       return false;

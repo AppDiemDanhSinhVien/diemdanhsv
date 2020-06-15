@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { Lop } from '../lop';
+import { MonHoc } from '../monhoc';
 import {  map} from 'rxjs/operators';
 declare var $:any;
 @Component({
@@ -11,24 +11,27 @@ declare var $:any;
 })
 export class EditLopComponent implements OnInit {
   GiaoVien: any;
-  lop: Lop = new Lop;
+  MonHoc: MonHoc = new MonHoc;
   id:any;
-  index = -1;
   schedule = {
     thuday: null,
     gioday: {giobd: null, giokt: null}
   }
-  editSchedule = {
-    thuday: null,
-    gioday: {giobd: null, giokt: null}
-  }
-  lichDay = [];
-  LopRef: AngularFireList<Lop> = null;
+  isAddSV = false;
+  isSearchSV = false;
+  resultSearch;
+  lichDay: any;
+  isLoading = true;
+  addlichday = false;
+  inputIdSV = null;
+  svDangHoc = false;
+  LopRef: AngularFireList<MonHoc> = null;
+  allSV;
   private dbPath = null;
-  constructor(public db: AngularFireDatabase, private activatedRoute: ActivatedRoute) {
+  constructor(public db: AngularFireDatabase, private activatedRoute: ActivatedRoute, private router: Router) {
     db.list('GV').valueChanges().subscribe(gv => this.GiaoVien = gv);
     this.activatedRoute.paramMap.subscribe(pramas=>{this.id=pramas.get('id')});
-    this.dbPath = '/LOP';
+    this.dbPath = '/MonHoc';
     this.LopRef = db.list(this.dbPath);
     this.LopRef.snapshotChanges()
     .pipe(map(items => { // <== new way of chaining
@@ -40,9 +43,17 @@ export class EditLopComponent implements OnInit {
             }; // or {key, ...data} in case data is Obj
         });
     })).subscribe(Lop => {
-      this.lop =  Lop.find(lop => lop.key === this.id);
-      this.lichDay = this.lop.lichday;
+      this.MonHoc =  Lop.find(lop => lop.key === this.id);
+      if(!this.MonHoc) {
+        router.navigate(['/quanly-lop'])
+      }
+      this.lichDay = this.MonHoc.lichday;
+      this.isLoading = false;
     });
+
+    db.list('SV').valueChanges().subscribe((val: any) => {
+      this.allSV = val;
+    })
 
   }
 
@@ -53,37 +64,79 @@ export class EditLopComponent implements OnInit {
     });
   }
   onSubmit() {
-    if(this.lop.tenlop == '' || this.lop.tengv == '' || this.lop.ngaybatdau == '') {
+    if(this.MonHoc.tenmonhoc == '' || this.MonHoc.tengv == '' || this.MonHoc.ngaybatdau == '') {
      alert('Cập nhật thất bại! Hãy nhập đầy đủ thông tin!')
     }else{
-      this.LopRef.update(this.id, this.lop);
+      this.LopRef.update(this.id, this.MonHoc);
       $('.toast').toast('show');
       $('.toast-body').text('update completed!');
     }
 
   }
   themLichday() {
-    this.lichDay.push(this.schedule);
-     this.schedule = {
-      thuday: null,
-      gioday: {giobd: null, giokt: null}
-    }
+    this.LopRef.update(this.id, {lichday: this.schedule});
+    setTimeout(() =>  {this.addlichday = false}, 2000)
   }
   removeLich(i){
     var result = confirm('are you sure remove this ?');
     if(result) {
-      this.lichDay.splice(i, 1);
+      this.LopRef.remove(`${this.id}/lichday`);
+      this.addlichday = true;
     }
 
   }
-  editLich(i){
+  editLich(){
     $('#editSchedule').modal('show');
-    this.index = i;
-    this.editSchedule = this.lichDay[i];
-  }
-  updateSchedule(index) {
-    $('#editSchedule').modal('hide');
-    this.lichDay[index] = this.editSchedule;
 
   }
+  updateSchedule() {
+    $('#editSchedule').modal('hide');
+    this.LopRef.update(this.id, {lichday: this.lichDay});
+  }
+
+  showAddSV() {
+    this.isAddSV = true;
+
+  }
+   searchStudent() {
+    this.resultSearch = null;
+    this.isSearchSV = true;
+    this.svDangHoc = false;
+    this.db.list("SV").valueChanges().subscribe(SV => {
+      this.resultSearch =  SV.find((s: any) => s.mssv === this.inputIdSV);
+      $('#modalSV').modal('show');
+      if(this.resultSearch){
+        this.isSearchSV = false;
+       let daco = this.getSV_HocMonNay(this.id).find(sv => sv.id === this.resultSearch.id);
+       if(daco) this.svDangHoc = true;
+      }else{
+        console.log("not found");
+        this.isSearchSV = false;
+      }
+    });
+
+  }
+  addSV() {
+    let lop =  {
+      idLop: this.id,
+      tenLop: this.MonHoc.tenmonhoc
+    }
+    this.db.list("SV/" + this.resultSearch.id + "/lop").push(lop);
+    alert("đã thêm sinh viên vào môn học này")
+  }
+  getSV_HocMonNay(idLop: string) {
+    let arrSV = [];
+    this.allSV.forEach(sv => {
+      let svFind;
+      if(sv.lop){
+       svFind =  Object.values(sv.lop).find((l: any) => l.idLop === idLop);
+        if(svFind){
+          arrSV.push(sv)
+        }
+      }
+
+     });
+     return arrSV;
+  }
+
 }

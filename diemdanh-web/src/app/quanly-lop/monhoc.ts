@@ -1,7 +1,8 @@
-export class Lop {
+export class MonHoc {
   tengv: string;
-  tenlop: string;
+  tenmonhoc: string;
   lichday: any;
   ngaybatdau:string;
   sobuoihoc: number;
+  diemdanh: any;
 }
