@@ -6,9 +6,9 @@
                 <th scope="col">Index</th>
                 <th scope="col">Name</th>
                 <th scope="col">ID</th>
-                <th scope="col">Class</th>
-                <th scope="col">Present</th>
-                <th scope="col">Absent</th>
+                <!-- <th scope="col">Class</th> -->
+                <!-- <th scope="col">Present</th>
+                <th scope="col">Absent</th> -->
                 <th scope="col">Handle</th>
             </tr>
         </thead>
@@ -17,29 +17,32 @@
                 <th scope="row" class="align-middle">{{index+1}}</th>
                 <td class="align-middle">{{i.tensv}}</td>
                 <td class="align-middle">{{i.mssv}}</td>
-                <td class="justify-content-center">
+                <!-- <td class="justify-content-center">
                     <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
                         <td><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp"
                             href="#myModal" (click)="deleteClass(a.IDLop, i.lop, i.key)">{{a.IDLop}}</a></td>
                     </tr>
-                    <!-- <tr class="table-borderless d-flex justify-content-center">
+                    <tr class="table-borderless d-flex justify-content-center">
                         <td>LTAndroid-2</td>
-                    </tr> -->
-                </td>
-                <td>
+                    </tr>
+                </td> -->
+                <!-- <td>
                     <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
                         <td class="bg-primary text-white">{{a.diemdanh.di}}</td>
                     </tr>
+                </td>
                 <td>
                     <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
                         <td class="bg-warning text-danger">{{a.diemdanh.vang}}</td>
                     </tr>
+                </td> -->
                 <td class="align-middle">
                     <button type="button" class="btn btn-warning" (click)="editStudent(i)" data-toggle="modal"
                         data-target="#editStudent">Edit</button>
-                    <button type="button" class="btn btn-warning" (click)="addClass(i)" data-toggle="modal"
-                        data-target="#newClass">Add Class</button>
-                    <button type="button" class="btn btn-danger" (click)="beforeDelete(i.tensv, i.key)">Delete</button></td>
+                    <!-- <button type="button" class="btn btn-warning" (click)="addClass(i)" data-toggle="modal"
+                        data-target="#newClass">Add Class</button> -->
+                    <button type="button" class="btn btn-danger" (click)="beforeDelete(i.tensv, i.key)">Delete</button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -48,15 +51,17 @@
 </div>
 
 <!-- Modal add class cho SV -->
-<div *ngIf="bata!=null" class="modal fade" id="newClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- <div *ngIf="bata!=null" class="modal fade" id="newClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
+
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Add a new class</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
         <div class="modal-body">
             <div class="form-group">
                 <div class="col">
@@ -69,9 +74,10 @@
                 <button type="submit" class="btn btn-primary" (click)="updateClass(bata.key)">Add</button>
             </div>
         </div>
+
       </div>
     </div>
-  </div>
+</div> -->
 
 <!-- Model Edit Thong Tin Sinh Vien -->
 <div *ngIf= "data!=null" class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
