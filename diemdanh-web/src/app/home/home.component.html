@@ -1,5 +1,13 @@
 <section>
 
-  <img style="margin-top: 2em; margin-left:18em;" src="https://laracasts.com/images/home/home-banner-lary.svg">
+  <!-- <img style="margin-top: 2em; margin-left:18em;" src="https://laracasts.com/images/home/home-banner-lary.svg"> -->
+  <ngx-donut-chart
+    [data]="donutChartData"
+    [title]="'Sessions'"
+    [radius]="88"
+    [thickness]="30"
+    [margin]="30">
+</ngx-donut-chart>
 
 </section>
+

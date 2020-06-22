@@ -16,8 +16,7 @@ import { SigninComponent } from './signin/signin.component';
 import { AddLopComponent } from './quanly-lop/add-lop/add-lop.component';
 import { EditLopComponent } from './quanly-lop/edit-lop/edit-lop.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-
-
+import { NgxDonutChartModule } from 'ngx-doughnut-chart'
 
 @NgModule({
   declarations: [
@@ -32,7 +31,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   imports: [
     BrowserModule,
-    NgxPaginationModule,
+    NgxPaginationModule,NgxDonutChartModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase, 'app-diem-danh'),
