@@ -30,7 +30,7 @@ export class QuanlyGVComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
+// <<<<<<< HEAD
     this.GiaoVien=this.auth.GV;
 
   }
@@ -40,10 +40,10 @@ export class QuanlyGVComponent implements OnInit {
     }else{
       return false;
     }
-=======
+  // =======
     this.noTeacher= this.auth.ClassNoHaveTeacher();
     this.monhoc= this.auth.MonHoc;
->>>>>>> b1b298bcee34e7d4bd46182e60e27b6bbc5e6d87
+  // >>>>>>> b1b298bcee34e7d4bd46182e60e27b6bbc5e6d87
   }
 
   // function when edit class of GV when add new GV
