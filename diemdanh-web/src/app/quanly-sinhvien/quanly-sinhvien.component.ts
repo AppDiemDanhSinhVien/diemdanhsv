@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../_services/auth.service'
+import {AuthService} from '../_services/auth.service';
+// import { $ } from 'protractor';
+
+declare var $: any;
 
 @Component({
   selector: 'app-quanly-sinhvien',
@@ -8,6 +11,8 @@ import {AuthService} from '../_services/auth.service'
 })
 export class QuanlySinhvienComponent implements OnInit {
   userLoggedIn
+  p: number = 1;
+  // collection: any[] = someArrayOfThings; 
   Student
   hocSinhMoi={
     "email": "",
@@ -32,8 +37,10 @@ export class QuanlySinhvienComponent implements OnInit {
   }
   // Them SV moi
   addStudent(cc){
-    this.auth.StudentRef.push(cc)
+    let id = this.auth.StudentRef.push(cc).key;
+    this.auth.StudentRef.update(id, {id: id})
     console.log('coconut puzzy')
+    $('#newStudent').modal('toggle')
   }
   // Chinh sua thong tin SV + binding data
   editStudent(cc){
@@ -42,7 +49,8 @@ export class QuanlySinhvienComponent implements OnInit {
   // Cap nhat thong tin SV
   updateStudent(key, cc){
     this.auth.StudentRef.update(key, cc);
-    console.log("like be afternoon");
+    $('#editStudent').modal('toggle')
+    // document.getElementById("editStudent").setAttribute('hidden','true');
   }
   //  Lay cac lop ma SV da dang ky
   addClass(cc){

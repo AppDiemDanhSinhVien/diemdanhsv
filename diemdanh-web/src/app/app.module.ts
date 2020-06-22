@@ -15,6 +15,7 @@ import { QuanlySinhvienComponent } from './quanly-sinhvien/quanly-sinhvien.compo
 import { SigninComponent } from './signin/signin.component';
 import { AddLopComponent } from './quanly-lop/add-lop/add-lop.component';
 import { EditLopComponent } from './quanly-lop/edit-lop/edit-lop.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -31,6 +32,7 @@ import { EditLopComponent } from './quanly-lop/edit-lop/edit-lop.component';
   ],
   imports: [
     BrowserModule,
+    NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase, 'app-diem-danh'),
