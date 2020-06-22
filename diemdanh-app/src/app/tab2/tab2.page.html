@@ -11,7 +11,7 @@
       <img src="assets/images/success.png">
       <ion-card-header>
           <ion-card-subtitle>Success</ion-card-subtitle>
-          <ion-card-title style="text-align: center;">Đã điểm danh</ion-card-title>
+          <ion-card-title style="text-align: center;"><span *ngIf="!scanLast">Điểm Danh Thành công </span> <span *ngIf="scanLast">Đã điểm danh </span></ion-card-title>
       </ion-card-header>
       <ion-card-content>
           <ion-title>Môn học :

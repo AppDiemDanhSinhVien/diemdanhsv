@@ -12,7 +12,7 @@ export class AuthService {
   ClassRef: AngularFireObject<any>;
   MonRef: AngularFireObject<any> = null;
   StudentRef: AngularFireList<any>
-  GV; // <= tất cả giáo viên  
+  GV; // <= tất cả giáo viên
   Class; // <= tất cả các lớp
   YClass; // <= lớp chưa có giáo viên
   Student; // <= tất cả học sinh
@@ -90,8 +90,6 @@ export class AuthService {
         });
     })).subscribe(mon => {
       this.MonHoc= mon;
-      console.log("All MonHoc: ");
-      console.log(mon);
     });
   }
   // Class no have teacher + this class

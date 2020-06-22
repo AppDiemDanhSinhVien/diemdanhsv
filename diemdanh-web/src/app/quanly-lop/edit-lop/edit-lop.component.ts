@@ -25,25 +25,30 @@ export class EditLopComponent implements OnInit {
   addlichday = false;
   inputIdSV = null;
   svDangHoc = false;
+  arrSV = [];
   LopRef: AngularFireList<MonHoc> = null;
   allSV;
+
   private dbPath = null;
   constructor(public db: AngularFireDatabase, private activatedRoute: ActivatedRoute, private router: Router) {
     db.list('GV').valueChanges().subscribe(gv => this.GiaoVien = gv);
     this.activatedRoute.paramMap.subscribe(pramas=>{this.id=pramas.get('id')});
     this.dbPath = '/MonHoc';
     this.LopRef = db.list(this.dbPath);
+
     this.LopRef.snapshotChanges()
     .pipe(map(items => { // <== new way of chaining
         return items.map(a => {
             const data = a.payload.val();
-            const key = a.payload.key;
+            const id = a.payload.key;
             return {
-                key, ...data
+                id, ...data
             }; // or {key, ...data} in case data is Obj
         });
     })).subscribe(Lop => {
-      this.MonHoc =  Lop.find(lop => lop.key === this.id);
+      this.MonHoc =  Lop.find(lop => lop.id === this.id);
+      this.arrSV = Object.values(this.MonHoc.listsv)
+     console.log(this.arrSV );
       if(!this.MonHoc) {
         router.navigate(['/quanly-lop'])
       }
@@ -98,6 +103,7 @@ export class EditLopComponent implements OnInit {
     this.isAddSV = true;
 
   }
+  // tim kiem sv bang mssv
    searchStudent() {
     this.resultSearch = null;
     this.isSearchSV = true;
@@ -107,10 +113,9 @@ export class EditLopComponent implements OnInit {
       $('#modalSV').modal('show');
       if(this.resultSearch){
         this.isSearchSV = false;
-       let daco = this.getSV_HocMonNay(this.id).find(sv => sv.id === this.resultSearch.id);
+       let daco = this.arrSV.find(sv => sv.id  === this.resultSearch.id);
        if(daco) this.svDangHoc = true;
       }else{
-        console.log("not found");
         this.isSearchSV = false;
       }
     });
@@ -121,22 +126,16 @@ export class EditLopComponent implements OnInit {
       idLop: this.id,
       tenLop: this.MonHoc.tenmonhoc
     }
-    this.db.list("SV/" + this.resultSearch.id + "/lop").push(lop);
-    alert("đã thêm sinh viên vào môn học này")
-  }
-  getSV_HocMonNay(idLop: string) {
-    let arrSV = [];
-    this.allSV.forEach(sv => {
-      let svFind;
-      if(sv.lop){
-       svFind =  Object.values(sv.lop).find((l: any) => l.idLop === idLop);
-        if(svFind){
-          arrSV.push(sv)
-        }
-      }
+    let sv = {
+      id: this.resultSearch.id,
+      tensv: this.resultSearch.tensv
+    }
 
-     });
-     return arrSV;
+   this.db.list("SV/" + this.resultSearch.id + "/lop").push(lop);
+    this.db.list("MonHoc/" + this.id + "/listsv").push( sv);
+    console.log(this.resultSearch.id);
+    alert("đã thêm sinh viên vào môn học này");
+    this.svDangHoc = true;
   }
 
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList  } from '@angular/fire/database';
-import { Observable, observable } from 'rxjs'
 import { map } from 'rxjs/operators';
 declare var $:any;
 
@@ -24,7 +23,6 @@ export class QuanlyLopComponent implements OnInit {
         this.loading = false;
       })
     }).catch(err => console.log(err));
-
     db.list('SV').valueChanges().subscribe((val: any) => {
       this.allSV = val;
     })
@@ -82,17 +80,7 @@ export class QuanlyLopComponent implements OnInit {
       });
 
   }
-  getSV_HocMonNay(idLop: string) {
-    let arrSV = [];
-    this.allSV.forEach(sv => {
 
-      let svFind =  Object.values(sv.lop).find((l: any) => l.idLop === idLop);
-      if(svFind){
-        arrSV.push(sv)
-       }
-     });
-     return arrSV;
-  }
   getStatusMonHoc(ngayBD) {
     let now = new Date().getTime();
     ngayBD = new Date(ngayBD).getTime();
@@ -104,4 +92,8 @@ export class QuanlyLopComponent implements OnInit {
       }
 
     }
+  getSV_HocMonNay(monhoc){
+    if(monhoc.listsv) return Object.values(monhoc.listsv).length;
+    return 0;
+  }
 }

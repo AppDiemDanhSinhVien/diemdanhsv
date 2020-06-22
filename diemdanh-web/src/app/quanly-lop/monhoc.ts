@@ -5,4 +5,5 @@ export class MonHoc {
   ngaybatdau:string;
   sobuoihoc: number;
   diemdanh: any;
+  listsv: any;
 }

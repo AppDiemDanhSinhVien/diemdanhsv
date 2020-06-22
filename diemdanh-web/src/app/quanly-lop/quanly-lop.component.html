@@ -56,7 +56,7 @@
           <span *ngIf="mh.sobuoihoc">{{mh.sobuoihoc}}</span>
           <span *ngIf="!mh.sobuoihoc">Chưa có</span>
          </td>
-         <td> {{getSV_HocMonNay(mh.id).length}}</td>
+         <td>{{getSV_HocMonNay(mh)}} </td>
          <td>
 
             <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 0"  style="color: chocolate;"> Chưa bắt đầu</span>
