@@ -9,14 +9,14 @@
                 <!-- <th scope="col">Class</th> -->
                 <!-- <th scope="col">Present</th>
                 <th scope="col">Absent</th> -->
-                <th scope="col">Handle</th>
+                <th scope="col" >Handle</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let i of auth.Student; let index = index">
+            <tr *ngFor="let i of auth.Student | paginate: { itemsPerPage: 10, currentPage: p } ; let index = index ">
                 <th scope="row" class="align-middle">{{index+1}}</th>
-                <td class="align-middle">{{i.tensv}}</td>
-                <td class="align-middle">{{i.mssv}}</td>
+                <td class="align-middle" style="text-align: center;">{{i.tensv}}</td>
+                <td class="align-middle" style="text-align: center;">{{i.mssv}}</td>
                 <!-- <td class="justify-content-center">
                     <tr class="table-borderless d-flex justify-content-center" *ngFor="let a of i.lop">
                         <td><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp"
@@ -36,7 +36,7 @@
                         <td class="bg-warning text-danger">{{a.diemdanh.vang}}</td>
                     </tr>
                 </td> -->
-                <td class="align-middle">
+                <td class="align-middle" style="text-align: center;"        >
                     <button type="button" class="btn btn-warning" (click)="editStudent(i)" data-toggle="modal"
                         data-target="#editStudent">Edit</button>
                     <!-- <button type="button" class="btn btn-warning" (click)="addClass(i)" data-toggle="modal"
@@ -49,6 +49,7 @@
     <button type="button" class="btn btn-warning" data-toggle="modal"
                         data-target="#newStudent">Add New Student</button>
 </div>
+<pagination-controls (pageChange)="p = $event" style="text-align: center;" class="my-pagination"></pagination-controls>
 
 <!-- Modal add class cho SV -->
 <!-- <div *ngIf="bata!=null" class="modal fade" id="newClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -80,7 +81,7 @@
 </div> -->
 
 <!-- Model Edit Thong Tin Sinh Vien -->
-<div *ngIf= "data!=null" class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf= "data!=null" class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -111,7 +112,7 @@
                         <label>Birthday</label>
                         <input type="date" class="form-control" name="ngaysinh" [(ngModel)]="data.ngaysinh" [ngModelOptions]="{standalone: true}">
                     </div>
-                    <button type="submit" class="btn btn-primary" (click)="updateStudent(data.key, data)">Add</button>
+                    <button type="submit" class="btn btn-primary" (click)="updateStudent(data.key, data)">Update</button>
                 </form>
             </div>
         </div>
