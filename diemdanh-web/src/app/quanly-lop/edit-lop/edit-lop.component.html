@@ -21,6 +21,37 @@
       <label for="exampleFormControlSelect1" style="margin-right: 30px;"><b>Ngày bắt đầu </b></label>
       <input type="date" name="bday" [(ngModel)]="MonHoc.ngaybatdau"  [ngModelOptions]="{standalone: true}">
     </div>
+
+    <div class="form-group">
+      <label for="exampleFormControlSelect1" style="margin-right: 30px;"><b>Số Lượng SV: </b></label>
+      <span style="color: chocolate; margin-right: 5px;"> {{arrSV.length}} </span>  <a class="" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        xem chi tiết
+      </a>
+    </div>
+
+    <div class="collapse" id="collapseExample">
+
+      <div class="card card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sv of arrSV; index as i">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{sv.tensv}}</td>
+              <button type="button" class="btn btn-danger" (click)="deleteSV(sv.id, $event)" >X</button>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="form-group">
       <label > <b>Thêm Sinh viên </b></label>
       <span (click)="showAddSV()" style="margin-left: 20px; color: green; font-weight: 900;cursor: pointer;">+</span>

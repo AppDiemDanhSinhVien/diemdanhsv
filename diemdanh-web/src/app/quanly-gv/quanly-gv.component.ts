@@ -30,6 +30,7 @@ export class QuanlyGVComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.GiaoVien=this.auth.GV;
 
   }
