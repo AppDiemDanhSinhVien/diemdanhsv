@@ -50,17 +50,17 @@ export class Tab2Page {
             this.checkDaDiemDanh().then((result: any) => {
                 // kiem tra da diem danh mon hoc nay vao ngay hon nay chua
                 if (result.diemdanhlancuoi == date) {
-                    console.log('da diem danh mon nay');
+                   // console.log('da diem danh mon nay');
                     this.getClassesWithKey(this.idMonHoc);
                     this.scannedCode = true;
                     this.scanLast = result.diemdanhlancuoi;
                 } else {
-                    console.log('chua diem danh');
+                    //console.log('chua diem danh');
                     this.getClassesWithKey(this.idMonHoc).then(() => {
                         // load data
                         this.presentLoading();
                         if(!this.MonHoc.diemdanh) {
-                            console.log("khong co diem danh");
+                           // console.log("khong co diem danh");
                             this.scannedError = true;
                             return;
                         }
