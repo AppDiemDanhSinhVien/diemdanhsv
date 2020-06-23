@@ -30,6 +30,7 @@
         <th scope="col">Số Buổi Học</th>
         <th scope="col">Số Lượng SV</th>
         <th scope="col">Trạng Thái</th>
+        <th scope="col"> Thống kê  </th>
         <th scope="col">Edit</th>
         <th scope="col">Delete</th>
       </tr>
@@ -62,6 +63,7 @@
             <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 0"  style="color: chocolate;"> Chưa bắt đầu</span>
             <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 1" style="color: green;"> Đã bắt đầu</span>
           </td>
+          <td >  <span style="cursor: pointer;" (click)="chitiet(mh.diemdanh, mh.listsv, mh.tenmonhoc)"> Chi tiết</span></td>
         <td>
           <button type="button"[routerLink]="['/quanly-lop/edit',mh.id]"  class="btn btn-info">Edit</button>
         </td>
@@ -72,5 +74,109 @@
 
     </tbody>
   </table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="chitiet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 900px!important;" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{tenMH}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="diemdanh">
+
+       <div class="card" *ngFor="let dd of diemdanh; index as i">
+        <div class="card-header" style="font-weight: 700; text-align: center;">
+          Buổi {{i +1}} - {{dd.ngay}}
+        </div>
+        <div class="card-body">
+          <p>Đi Học: <span style="color: coral;">{{checkObj(dd.comat)}} / {{convertToArr(listSV).length}} </span></p>
+          <a class="" data-toggle="collapse" [href]="['#chitiet' + i]" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Xem chi tiết
+          </a>
+
+          <div class="collapse" [id]="['chitiet' + i]">
+
+            <div class="card card-body">
+              <table class="table">
+
+                <thead>
+                  <caption style="font-weight: bold; width: max-content;">Danh sách sinh viên có mặt</caption>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cm of dd.comat; index as i">
+                    <td>{{i + 1}}</td>
+                    <td> {{cm}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <table class="table">
+
+                <thead>
+                  <caption style="font-weight: bold; width: max-content;">Danh sách sinh viên vắng mặt</caption>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let vm of filterSV_VangHoc(dd.comat); index as i">
+                    <td>{{i + 1}}</td>
+                    <td> {{vm.tensv}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <h3 style="margin-top: 15px;">Tổng quát</h3>
+      <table class="table">
+
+        <thead>
+          <caption style="font-weight: bold; width: max-content;">Thống kê số lần vắng</caption>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tên SV</th>
+            <th scope="col">Số lần vắng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let svv of countSVVang; index as i" [ngClass]="(svv.vang == 2)?'sv_warning':(svv.vang >= 3)? 'sv_nghiNhieu':''">
+            <td>{{i + 1}}</td>
+            <td> {{svv.tensv}}</td>
+            <td> {{svv.vang}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+      </div>
+      <div lass="modal-body" *ngIf="!diemdanh">
+      <p style="text-align: center;">
+        Chưa có điểm danh
+      </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 </div>

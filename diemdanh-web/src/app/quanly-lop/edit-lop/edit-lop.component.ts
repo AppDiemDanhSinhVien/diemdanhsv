@@ -137,7 +137,6 @@ export class EditLopComponent implements OnInit {
 
     this.db.list("SV/" + this.resultSearch.id + "/lop").push(lop);
     this.db.list("MonHoc/" + this.id + "/listsv").push(sv);
-    alert("đã thêm sinh viên vào môn học này");
     this.svDangHoc = true;
   }
 
