@@ -19,6 +19,7 @@ export class QuanlyLopComponent implements OnInit {
   tenMH;
   listSVVang = [];
   countSVVang;
+  check_TK = false;
   constructor(db: AngularFireDatabase) {
 
     this.itemsRef = db.list('MonHoc');
@@ -108,18 +109,21 @@ export class QuanlyLopComponent implements OnInit {
     this.tenMH = null;
     this.listSVVang = [];
     this.countSVVang = null;
+    this.check_TK = false;
     $('#chitiet').modal('show');
     this.tenMH = TenMH;
     if (diemdanh) {
       this.diemdanh = Object.values(diemdanh);
       this.listSV = ListSV;
       // dem tong so lan van hoc cua mot sinh vien
-      this.diemdanh.forEach((el: any) => {
-        if(this.filterSV_VangHoc(el.comat))this.listSVVang.push(...this.filterSV_VangHoc(el.comat));
-       });
-      this.countSVVang = Object.values(this.countVang(this.listSVVang));
+      if (this.diemdanh[0].comat) {
+        this.check_TK = true;
+        this.diemdanh.forEach((el: any) => {
+          if (this.filterSV_VangHoc(el.comat)) this.listSVVang.push(...this.filterSV_VangHoc(el.comat));
+        });
+        this.countSVVang = Object.values(this.countVang(this.listSVVang));
+      }
     }
-
 
   }
 
@@ -131,19 +135,22 @@ export class QuanlyLopComponent implements OnInit {
         return val.length;
       }
     } else {
-      return [];
+      return 0;
     }
   }
 
   convertToArr(val) {
-    if (val) return Object.values(val);
-    return [];
+    if (!Array.isArray(val) && val) return Object.values(val);
+    if(!val) return [];
+    return val;
 
   }
 
   filterSV_VangHoc(svdh) {
-    if (this.listSV) {
+    if (!Array.isArray(svdh) && svdh) svdh = Object.values(svdh);
+    if (this.listSV && svdh) {
       let array = Object.values(this.listSV);
+
       let filteredArray: any;
       filteredArray = array.filter(function (array_el: any) {
         return svdh.filter(function (anotherOne_el) {
@@ -151,18 +158,20 @@ export class QuanlyLopComponent implements OnInit {
         }).length == 0
       });
       return filteredArray;
+    }else{
+      return []
     }
 
   }
 
-   countVang(arr) {
+  countVang(arr) {
     var count = {};
-    arr.forEach(function(i) {
+    arr.forEach(function (i) {
       count[i.id] = {
-       vang: count[i.id]?count[i.id].vang + 1: 1,
-       tensv: i.tensv
+        vang: count[i.id] ? count[i.id].vang + 1 : 1,
+        tensv: i.tensv
       }
     });
-   return count;
-   }
+    return count;
+  }
 }

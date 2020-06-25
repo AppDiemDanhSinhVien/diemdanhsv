@@ -64,6 +64,7 @@ export class AuthenticationService {
       localStorage.removeItem('Logged');
       this.storage.remove('LoggedInUser').then(() => {
           this.authenticationState.next(false);
+          //location.reload();
           this.router.navigate(["/login"]);
 
       });

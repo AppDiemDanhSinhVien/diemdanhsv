@@ -86,7 +86,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" *ngIf="diemdanh">
+      <div class="modal-body" *ngIf="diemdanh && check_TK">
 
        <div class="card" *ngFor="let dd of diemdanh; index as i">
         <div class="card-header" style="font-weight: 700; text-align: center;">
@@ -111,7 +111,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let cm of dd.comat; index as i">
+                  <tr *ngFor="let cm of convertToArr(dd.comat); index as i">
                     <td>{{i + 1}}</td>
                     <td> {{cm}}</td>
                   </tr>
@@ -163,7 +163,7 @@
         </tbody>
       </table>
       </div>
-      <div lass="modal-body" *ngIf="!diemdanh">
+      <div lass="modal-body" *ngIf="!check_TK">
       <p style="text-align: center;">
         Chưa có điểm danh
       </p>

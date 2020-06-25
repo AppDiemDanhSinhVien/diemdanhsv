@@ -44,9 +44,12 @@
       <ion-card-header>
           <ion-card-subtitle>Error</ion-card-subtitle>
           <ion-card-title style="text-align: center;">Điểm danh thất bại</ion-card-title>
+          
       </ion-card-header>
       <ion-card-content>
-          Result from scan: fail:((
+        <ion-text style="text-align: center; color:coral" *ngIf="alert_MH_ChuaBatDau">{{alert_MH_ChuaBatDau}}</ion-text>
+        <ion-text>Result from scan: fail:((</ion-text>
+          
       </ion-card-content>
   </ion-card>
   <p>

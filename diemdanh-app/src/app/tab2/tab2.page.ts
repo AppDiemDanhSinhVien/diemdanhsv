@@ -16,9 +16,9 @@ export class Tab2Page {
     scannedError = false;
     scanLast = null;
     idMonHoc = null;
+    alert_MH_ChuaBatDau = null;
     MonHoc: any;
     User;
-    Lop_ScannedSuccess = [];
     ClassRef: AngularFireList<any> = null;
     constructor(private barcodeScanner: BarcodeScanner,
         private db: AngularFireDatabase, public loadingController: LoadingController,
@@ -36,7 +36,12 @@ export class Tab2Page {
         if (!this.scannedCode) {
             this.scanCode();
         }
-
+            this.scannedCode = false;
+            this.scannedError = false;
+            this.scanLast = null;
+            this.idMonHoc = null;
+            this.alert_MH_ChuaBatDau = null;
+            this.MonHoc = null;
     }
     scanCode() {
 
@@ -45,34 +50,40 @@ export class Tab2Page {
             this.scannedCode = false;
             this.scannedError = false;
             this.scanLast = null;
+            this.alert_MH_ChuaBatDau = null;
             let date = new Date().toLocaleDateString();
 
             this.checkDaDiemDanh().then((result: any) => {
                 // kiem tra da diem danh mon hoc nay vao ngay hon nay chua
                 if (result.diemdanhlancuoi == date) {
-                   // console.log('da diem danh mon nay');
+                    // console.log('da diem danh mon nay');
                     this.getClassesWithKey(this.idMonHoc);
                     this.scannedCode = true;
                     this.scanLast = result.diemdanhlancuoi;
                 } else {
                     //console.log('chua diem danh');
-                    this.getClassesWithKey(this.idMonHoc).then(() => {
+                    this.getClassesWithKey(this.idMonHoc).then((result) => {
                         // load data
+                        this.MonHoc = result;
+                        console.log(this.MonHoc)
                         this.presentLoading();
-                        if(!this.MonHoc.diemdanh) {
-                           // console.log("khong co diem danh");
+                        if (!this.MonHoc.diemdanh) {
+                            // console.log("khong co diem danh");
+                            this.alert_MH_ChuaBatDau = "Môn học này chưa bắt đầu!"
                             this.scannedError = true;
                             return;
                         }
+                        
                         return new Promise((resolve, reject) => {
                             this.db.list('SV/' + this.User.id + '/lop').valueChanges().subscribe((lop: any) => {
-                                // tim lop cua sv hien tai dang logged                    
+                                // tim lop cua sv hien tai dang logged                     
                                 let data = lop.find((l) => l.idLop === this.idMonHoc);
                                 if (data) resolve(data);
                                 reject(new Error("It broken"));
                             });
                         });
                     }).then(data => {
+                        console.log(data);
                         // kiem tra ma code qr va key lop can diem danh                     
                         if (this.MonHoc && data && this.MonHoc.qr === barcodeData.text) {
                             this.getMonHocCuaSV(this.User.id).then((result: any) => {
@@ -86,8 +97,7 @@ export class Tab2Page {
                             let buoi = Object.values(this.MonHoc.diemdanh).length;
                             let keyBuoi: any;
                             keyBuoi = Object.values(this.MonHoc.diemdanh)[buoi - 1];
-                            // this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id + "/comat").push(this.User.id);
-                            this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id).push({comat : [this.User.tensv]});
+                            this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id + "/comat").push(this.User.tensv);
                             console.log("diem danh thanh cong");
                             this.scannedCode = true;
                         } else {
