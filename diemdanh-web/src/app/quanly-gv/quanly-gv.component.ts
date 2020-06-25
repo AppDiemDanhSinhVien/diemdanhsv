@@ -24,7 +24,7 @@ export class QuanlyGVComponent implements OnInit {
   }; // <= data khi thêm giáo viên
   class_edit; // <= lớp đang chỉnh sửa
   constructor(private auth: AuthService) {
-    this.userLoggedIn =JSON.parse(this.auth.getToken());
+    this.userLoggedIn =this.auth.currentUserValue();
     this.GiaoVien=this.auth.GV;
     // this.monhoc= this.auth.MonHoc;
   }

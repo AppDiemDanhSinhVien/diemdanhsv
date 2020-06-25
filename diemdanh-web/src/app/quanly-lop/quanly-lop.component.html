@@ -63,7 +63,7 @@
             <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 0"  style="color: chocolate;"> Chưa bắt đầu</span>
             <span *ngIf="getStatusMonHoc(mh.ngaybatdau) == 1" style="color: green;"> Đã bắt đầu</span>
           </td>
-          <td >  <span style="cursor: pointer;" (click)="chitiet(mh.diemdanh, mh.listsv, mh.tenmonhoc)"> Chi tiết</span></td>
+          <td >  <span class="j-chitiet" style="cursor: pointer;" (click)="chitiet(mh.diemdanh, mh.listsv, mh.tenmonhoc)"> Chi tiết</span></td>
         <td>
           <button type="button"[routerLink]="['/quanly-lop/edit',mh.id]"  class="btn btn-info">Edit</button>
         </td>

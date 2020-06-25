@@ -10,9 +10,9 @@ declare var $: any;
   styleUrls: ['./quanly-sinhvien.component.css']
 })
 export class QuanlySinhvienComponent implements OnInit {
-  userLoggedIn
+
   p: number = 1;
-  // collection: any[] = someArrayOfThings; 
+  // collection: any[] = someArrayOfThings;
   Student
   hocSinhMoi={
     "email": "",
@@ -22,14 +22,13 @@ export class QuanlySinhvienComponent implements OnInit {
     "password": "",
     "tensv": "",
   }
-  data: any  = null    
+  data: any  = null
   bata: any = null
-  class                                                             
+  class
   Classes
   num
 
   constructor(private auth: AuthService) {
-    this.userLoggedIn =JSON.parse(this.auth.getToken());
    }
 
   ngOnInit() {
@@ -82,7 +81,7 @@ export class QuanlySinhvienComponent implements OnInit {
     }
     let lop = {IDLop: tenLop,key :this.class,diemdanh:{di:0,vang:0}}
     this.Classes.push(lop)
-    this.auth.StudentRef.update(cc,{"lop":this.Classes}) 
+    this.auth.StudentRef.update(cc,{"lop":this.Classes})
   }
   // Xoa lop SV
   deleteClass(x, y, cc){
@@ -94,7 +93,7 @@ export class QuanlySinhvienComponent implements OnInit {
         }
       }
       console.log(arr)
-      this.auth.StudentRef.update(cc,{"lop":arr}) 
+      this.auth.StudentRef.update(cc,{"lop":arr})
     }
     else{}
   }

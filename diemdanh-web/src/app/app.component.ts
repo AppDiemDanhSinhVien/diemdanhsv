@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from './_services/auth.service';
+
 declare var $: any;
 @Component({
   selector: 'app-root',
@@ -11,12 +12,12 @@ export class AppComponent {
   loggedIn = false;
   userLoggedIn: any;
   constructor(public auth: AuthService ) {
-      this.userLoggedIn = JSON.parse(this.auth.getToken()) || this.auth.currentUser;
-      console.log(this.userLoggedIn);
-      if( this.userLoggedIn) {
-        this.loggedIn = true;
-      }
+    this.userLoggedIn = this.auth.currentUserValue()//JSON.parse(this.auth.getToken());
+    if(this.auth.isLoggedIn()) {
+      this.loggedIn = true;
+    }
    }
+
   menuToggle() {
     $("#wrapper").toggleClass("toggled");
 
@@ -24,6 +25,6 @@ export class AppComponent {
   logout() {
     this.loggedIn = false;
     this.auth.logout();
-    this.userLoggedIn = this.auth.getToken();
+    this.userLoggedIn = this.auth.currentUserValue();
   }
 }

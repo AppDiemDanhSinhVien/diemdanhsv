@@ -43,8 +43,8 @@ import { NgxDonutChartModule } from 'ngx-doughnut-chart'
       {path: 'quanly-sinhvien', component:QuanlySinhvienComponent, canActivate:[AuthGuard]},
       {path: 'quanly-lop', component:QuanlyLopComponent, canActivate:[AuthGuard]},
       {path: 'quanly-lop/them-lop', component:AddLopComponent, canActivate:[AuthGuard]},
-      {path: 'signin', component:SigninComponent},
-      { path: 'quanly-lop/edit/:id', component: EditLopComponent },
+      {path: 'login', component:SigninComponent},
+      { path: 'quanly-lop/edit/:id', component: EditLopComponent, canActivate:[AuthGuard] },
       {path: '**', redirectTo: '', pathMatch: 'full'}
     ])
   ],

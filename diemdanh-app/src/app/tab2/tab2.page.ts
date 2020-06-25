@@ -86,7 +86,8 @@ export class Tab2Page {
                             let buoi = Object.values(this.MonHoc.diemdanh).length;
                             let keyBuoi: any;
                             keyBuoi = Object.values(this.MonHoc.diemdanh)[buoi - 1];
-                            this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id + "/comat").push(this.User.id);
+                            // this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id + "/comat").push(this.User.id);
+                            this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id).push({comat : [this.User.tensv]});
                             console.log("diem danh thanh cong");
                             this.scannedCode = true;
                         } else {

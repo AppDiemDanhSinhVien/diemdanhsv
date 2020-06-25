@@ -123,7 +123,6 @@ export class QuanlyLopComponent implements OnInit {
 
   }
 
-
   checkObj(val) {
     if (val) {
       if (!Array.isArray(val)) {

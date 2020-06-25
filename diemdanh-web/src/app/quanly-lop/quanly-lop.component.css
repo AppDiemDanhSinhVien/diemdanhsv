@@ -4,3 +4,11 @@
 .sv_nghiNhieu{
   color: red;
 }
+.j-chitiet:hover {
+  text-decoration: underline;
+  color: coral;
+}
+.j-chitiet {
+  text-decoration: none;
+  color: black;
+}
