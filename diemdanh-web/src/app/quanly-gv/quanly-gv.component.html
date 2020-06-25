@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputClass">Lớp</label>
-                                    <div *ngFor="let item of noTeacher">
+                                    <div *ngFor="let item of auth.ClassNoHaveTeacher()">
                                         <input type="checkbox" (change)="onChange($event.target.checked , item)" [checked]="newteacher.mon.indexOf(item) > -1"> {{item.tenmonhoc}}
                                     </div>
                                 </div>

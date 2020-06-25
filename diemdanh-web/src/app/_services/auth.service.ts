@@ -121,7 +121,7 @@ export class AuthService {
   async addGV(newdata) {
     this.GVRef = this.db.list('GV');
     await this.GVRef.push(newdata);
-    await console.log('added');
+    await console.log('Add Giao Vien Complete');
     await this.getGV();
     await this.ClassNoHaveTeacher();
   }
@@ -129,21 +129,21 @@ export class AuthService {
   // Update info teacher
   async updateGV(key, data) {
     await this.db.list('GV').update(key, data);
-    await console.log("updated");
+    await console.log("update Giao Vien Complete");
     await this.ClassNoHaveTeacher();
   }
 
   // Delete data teacher
   async delete(id) {
     await this.db.list('GV').remove(id);
-    await console.log("removed");
+    await console.log("removed Giao Vien Complete");
     await this.ClassNoHaveTeacher();
   }
 
   // Update info in tab MonHoc
   async updateMon(key, data) {
     await this.db.list('MonHoc').update(key, data);
-    await console.log("updated MonHoc")
+    await console.log("updated Mon Hoc Complete")
     await this.ClassNoHaveTeacher();
   }
   sendToken(email, password) {
