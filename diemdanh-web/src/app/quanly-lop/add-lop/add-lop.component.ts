@@ -107,8 +107,6 @@ export class AddLopComponent implements OnInit {
       try{
         let newMonHoc = itemsRef.push(this.Monhoc).key;
         itemsRef.update(newMonHoc, { id: newMonHoc});
-        let k = this.db.list(`MonHoc/${newMonHoc}/diemdanh`).push({}).key;
-        this.db.list(`MonHoc/${newMonHoc}/diemdanh`).update(k, {id: k, ngay: " "})
       }catch(err) {
         reject(err)
       }

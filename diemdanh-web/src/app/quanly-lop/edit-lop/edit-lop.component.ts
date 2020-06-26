@@ -72,7 +72,7 @@ export class EditLopComponent implements OnInit {
     });
   }
   onSubmit() {
-    if (this.MonHoc.tenmonhoc == '' || this.MonHoc.tengv == '' || this.MonHoc.ngaybatdau == '') {
+    if (this.MonHoc.tenmonhoc == '' || this.MonHoc.ngaybatdau == '') {
       alert('Cập nhật thất bại! Hãy nhập đầy đủ thông tin!')
     } else {
       this.LopRef.update(this.id, this.MonHoc);

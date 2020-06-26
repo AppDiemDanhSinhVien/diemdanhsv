@@ -143,7 +143,6 @@ export class QuanlyLopComponent implements OnInit {
     if (!Array.isArray(val) && val) return Object.values(val);
     if(!val) return [];
     return val;
-
   }
 
   filterSV_VangHoc(svdh) {
@@ -153,8 +152,8 @@ export class QuanlyLopComponent implements OnInit {
 
       let filteredArray: any;
       filteredArray = array.filter(function (array_el: any) {
-        return svdh.filter(function (anotherOne_el) {
-          return anotherOne_el == array_el.tensv;
+        return svdh.filter(function (anotherOne_el: any) {
+          return anotherOne_el.id == array_el.id;
         }).length == 0
       });
       return filteredArray;

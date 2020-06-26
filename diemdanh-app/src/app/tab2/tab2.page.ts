@@ -23,25 +23,26 @@ export class Tab2Page {
     constructor(private barcodeScanner: BarcodeScanner,
         private db: AngularFireDatabase, public loadingController: LoadingController,
         private authService: AuthenticationService) {
+        
+
+
+    }
+    ionViewWillEnter() {
+        this.scannedCode = false;
+        this.scannedError = false;
+        this.scanLast = null;
+        this.idMonHoc = null;
+        this.alert_MH_ChuaBatDau = null;
+        this.MonHoc = null;
         this.authService.getUserCurrent().then((val) => {
             if (val) {
                 return this.User = val;
             }
         });
-
-
-    }
-    ionViewWillEnter() {
-
         if (!this.scannedCode) {
             this.scanCode();
         }
-            this.scannedCode = false;
-            this.scannedError = false;
-            this.scanLast = null;
-            this.idMonHoc = null;
-            this.alert_MH_ChuaBatDau = null;
-            this.MonHoc = null;
+           
     }
     scanCode() {
 
@@ -55,6 +56,8 @@ export class Tab2Page {
 
             this.checkDaDiemDanh().then((result: any) => {
                 // kiem tra da diem danh mon hoc nay vao ngay hon nay chua
+                console.log(this.User);
+                console.log(result.diemdanhlancuoi)
                 if (result.diemdanhlancuoi == date) {
                     // console.log('da diem danh mon nay');
                     this.getClassesWithKey(this.idMonHoc);
@@ -65,7 +68,6 @@ export class Tab2Page {
                     this.getClassesWithKey(this.idMonHoc).then((result) => {
                         // load data
                         this.MonHoc = result;
-                        console.log(this.MonHoc)
                         this.presentLoading();
                         if (!this.MonHoc.diemdanh) {
                             // console.log("khong co diem danh");
@@ -83,7 +85,6 @@ export class Tab2Page {
                             });
                         });
                     }).then(data => {
-                        console.log(data);
                         // kiem tra ma code qr va key lop can diem danh                     
                         if (this.MonHoc && data && this.MonHoc.qr === barcodeData.text) {
                             this.getMonHocCuaSV(this.User.id).then((result: any) => {
@@ -97,7 +98,7 @@ export class Tab2Page {
                             let buoi = Object.values(this.MonHoc.diemdanh).length;
                             let keyBuoi: any;
                             keyBuoi = Object.values(this.MonHoc.diemdanh)[buoi - 1];
-                            this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id + "/comat").push(this.User.tensv);
+                            this.db.list('MonHoc/' + this.MonHoc.id + "/diemdanh/" + keyBuoi.id + "/comat").push({id: this.User.id, tensv: this.User.tensv});
                             console.log("diem danh thanh cong");
                             this.scannedCode = true;
                         } else {
